@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reclama Pro — Guía de Trabajo con IA</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --bg2: #161b22;
+      --bg3: #1e2432;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --accent3: #f78166;
+      --accent4: #d2a8ff;
+      --accent5: #ffa657;
+      --tag-bg: #1f3a5f;
+      --code-bg: #161b22;
+      --sidebar-w: 260px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    nav {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      padding: 24px 0 48px;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .nav-logo h1 { font-size: 15px; color: var(--text); font-weight: 700; }
+    .nav-logo span { font-size: 11px; color: var(--text-muted); }
+
+    .nav-section { padding: 8px 20px 4px; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+    nav a {
+      display: block;
+      padding: 6px 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    nav a:hover { color: var(--text); background: var(--bg3); border-left-color: var(--accent); }
+    nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(88,166,255,.08); }
+
+    /* ── MAIN ── */
+    main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 48px 56px;
+      max-width: calc(100% - var(--sidebar-w));
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a2744 0%, #1e2432 60%, #1a2030 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(88,166,255,.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 16px; color: var(--text-muted); max-width: 600px; line-height: 1.6; }
+    .badge-row { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+    .badge {
+      font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600;
+      background: rgba(88,166,255,.12); color: var(--accent); border: 1px solid rgba(88,166,255,.25);
+    }
+    .badge.green { background: rgba(63,185,80,.12); color: var(--accent2); border-color: rgba(63,185,80,.25); }
+    .badge.purple { background: rgba(210,168,255,.12); color: var(--accent4); border-color: rgba(210,168,255,.25); }
+    .badge.orange { background: rgba(255,166,87,.12); color: var(--accent5); border-color: rgba(255,166,87,.25); }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 64px; scroll-margin-top: 24px; }
+    h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    h2 .icon { margin-right: 8px; }
+    h3 { font-size: 17px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+    h4 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: var(--accent4); }
+    p { font-size: 14px; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px; }
+    p strong { color: var(--text); }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    li { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+    li strong { color: var(--text); }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      border-radius: 8px; padding: 14px 18px; margin: 16px 0;
+      font-size: 13px; line-height: 1.6; border-left: 3px solid;
+    }
+    .callout.info { background: rgba(88,166,255,.08); border-color: var(--accent); color: #b3d1ff; }
+    .callout.tip { background: rgba(63,185,80,.08); border-color: var(--accent2); color: #9be6a8; }
+    .callout.warn { background: rgba(247,129,102,.08); border-color: var(--accent3); color: #f7b39e; }
+    .callout strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+
+    /* ── CODE ── */
+    code {
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 13px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: var(--accent4);
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+    pre code {
+      background: none; border: none; padding: 0;
+      font-size: 13px; line-height: 1.6; color: var(--text);
+    }
+    .comment { color: #6e7681; }
+    .kw { color: var(--accent); }
+    .str { color: var(--accent2); }
+    .fn { color: var(--accent4); }
+
+    /* ── CARDS ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+    .card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 20px; transition: border-color .15s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-icon { font-size: 24px; margin-bottom: 10px; }
+    .card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .card-subtitle { font-size: 12px; color: var(--accent); margin-bottom: 8px; font-family: monospace; }
+    .card p { font-size: 13px; margin: 0; }
+
+    /* ── STEPS ── */
+    .steps { list-style: none; padding: 0; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      display: flex; gap: 16px; margin-bottom: 20px;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px;
+    }
+    .steps li::before {
+      content: counter(step);
+      min-width: 28px; height: 28px;
+      background: var(--accent); color: #0f1117;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+    }
+    .steps li .step-content { flex: 1; }
+    .steps li .step-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .steps li p { margin: 0; font-size: 13px; }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+    th {
+      background: var(--bg2); color: var(--text-muted);
+      padding: 10px 14px; text-align: left; font-weight: 600;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+      border-bottom: 1px solid var(--border);
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+    td strong { color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+
+    /* ── PROTOCOL BOXES ── */
+    .protocol { border-radius: 10px; padding: 24px; margin: 16px 0; border: 1px solid; }
+    .protocol.light { background: rgba(63,185,80,.05); border-color: rgba(63,185,80,.3); }
+    .protocol.structured { background: rgba(88,166,255,.05); border-color: rgba(88,166,255,.3); }
+    .protocol h3 { margin-top: 0; font-size: 15px; }
+    .protocol.light h3 { color: var(--accent2); }
+    .protocol.structured h3 { color: var(--accent); }
+
+    .flow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+    .flow-step {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--text);
+    }
+    .flow-arrow { color: var(--text-muted); font-size: 14px; }
+
+    /* ── COMMAND REF ── */
+    .cmd-block {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; margin: 12px 0;
+    }
+    .cmd-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+    .cmd-name { font-family: monospace; font-size: 14px; font-weight: 700; color: var(--accent); }
+    .cmd-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+    .cmd-tag.always { background: rgba(63,185,80,.15); color: var(--accent2); }
+    .cmd-tag.when-needed { background: rgba(255,166,87,.15); color: var(--accent5); }
+    .cmd-body { padding: 14px 16px; }
+    .cmd-body p { margin-bottom: 8px; font-size: 13px; }
+    .cmd-body p:last-child { margin-bottom: 0; }
+
+    /* ── CHIP ROW ── */
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    .chip {
+      font-size: 12px; padding: 3px 10px; border-radius: 4px;
+      background: var(--bg3); border: 1px solid var(--border); color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    /* ── ROLE TAGS ── */
+    .role { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 700; margin-right: 4px; }
+    .role.pl { background: rgba(255,166,87,.15); color: var(--accent5); }
+    .role.sr { background: rgba(210,168,255,.15); color: var(--accent4); }
+    .role.dev { background: rgba(63,185,80,.15); color: var(--accent2); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ SIDEBAR ═══════════════════════════════ -->
+<nav>
+  <div class="nav-logo">
+    <h1>Reclama Pro</h1>
+    <span>Guía de Trabajo con IA</span>
+  </div>
+
+  <div class="nav-section">Inicio</div>
+  <a href="#intro" class="active">¿Qué es esto?</a>
+  <a href="#constitucion">Constitución del proyecto</a>
+  <a href="#setup">Setup inicial</a>
+  <a href="#arquitectura">Arquitectura del proyecto</a>
+
+  <div class="nav-section">El equipo IA</div>
+  <a href="#skills">Skills disponibles</a>
+  <a href="#roles">Los 3 roles</a>
+
+  <div class="nav-section">Flujo de trabajo</div>
+  <a href="#como-trabajar">Cómo trabajar</a>
+  <a href="#lightweight">Protocolo Lightweight</a>
+  <a href="#structured">Protocolo Structured</a>
+  <a href="#openspec">OpenSpec en detalle</a>
+
+  <div class="nav-section">Referencia</div>
+  <a href="#comandos">Comandos de referencia</a>
+  <a href="#modelo-datos">Modelo de datos</a>
+  <a href="#tips">Tips y buenas prácticas</a>
+  <a href="#glosario">Glosario</a>
+</nav>
+
+<!-- ═══════════════════════════════ MAIN ═══════════════════════════════ -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Bienvenido al equipo <span>Reclama Pro</span></h1>
+    <p>Esta guía te explica cómo usamos inteligencia artificial agéntica para desarrollar este proyecto. No necesitas experiencia previa — el sistema está diseñado para guiarte paso a paso.</p>
+    <div class="badge-row">
+      <span class="badge">Claude Code</span>
+      <span class="badge green">Next.js 15</span>
+      <span class="badge green">Firebase</span>
+      <span class="badge purple">OpenSpec</span>
+      <span class="badge orange">Team Skill</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ INTRO ═══════════ -->
+  <section id="intro">
+    <h2><span class="icon">💡</span>¿Qué es esto?</h2>
+    <p>En este proyecto no solo escribimos código manualmente. Usamos <strong>Claude Code</strong>, un agente de IA que trabaja directamente en tu terminal, lee archivos, escribe código, corre comandos y sigue un protocolo de desarrollo estructurado.</p>
+    <p>Piénsalo así: en vez de pedirle a Claude que te <em>explique</em> cómo hacer algo, le pedís que <em>lo haga</em> directamente en el repositorio, siguiendo las reglas y arquitectura del proyecto.</p>
+
+    <div class="callout info">
+      <strong>Concepto clave</strong>
+      Un <strong>agente de IA</strong> es un modelo de lenguaje que puede usar herramientas (leer archivos, escribir código, correr tests) para completar tareas de forma autónoma. Claude Code es ese agente, corriendo en tu terminal.
+    </div>
+
+    <h3>¿Por qué trabajamos así?</h3>
+    <ul>
+      <li><strong>Consistencia:</strong> el agente siempre lee la constitución del proyecto (CLAUDE.md) antes de tocar código, garantizando que respete la arquitectura acordada.</li>
+      <li><strong>Trazabilidad:</strong> cada feature importante genera artefactos escritos (propuesta, diseño, specs, tareas) que quedan en el repositorio.</li>
+      <li><strong>Calidad:</strong> el flujo de trabajo tiene revisión de código integrada — el mismo agente revisa lo que implementó antes de darte el resultado.</li>
+      <li><strong>Velocidad:</strong> tareas que tomarían horas de investigación + implementación se resuelven en minutos con el contexto correcto.</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════ CONSTITUCIÓN ═══════════ -->
+  <section id="constitucion">
+    <h2><span class="icon">📜</span>Constitución del proyecto</h2>
+    <p>Reclama Pro tiene un archivo llamado <code>CLAUDE.md</code> en la raíz del repositorio. Es la <strong>constitución del proyecto</strong>: el documento que el agente lee obligatoriamente antes de tocar cualquier línea de código.</p>
+
+    <div class="callout info">
+      <strong>¿Por qué existe esto?</strong>
+      Sin una constitución, cada sesión de trabajo empieza de cero. El agente no sabría qué stack usamos, qué convenciones seguimos ni qué decisiones ya tomamos. CLAUDE.md es la memoria permanente del proyecto.
+    </div>
+
+    <h3>¿Qué contiene?</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">Arquitectura de carpetas</div>
+        <p>Qué va en cada carpeta, por qué está organizado así, y qué alternativas se descartaron.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚠️</div>
+        <div class="card-title">Reglas críticas</div>
+        <p>Las restricciones que no se pueden violar: qué código va solo en el servidor, cómo manejar credenciales, aislamiento entre empresas.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗃️</div>
+        <div class="card-title">Modelo de datos</div>
+        <p>Cómo se estructuran los datos en Firestore, qué tipos TypeScript representan cada colección.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">Convenciones de código</div>
+        <p>Cómo nombrar funciones, cómo estructurar las queries, cómo serializar datos entre servidor y cliente.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">Stack tecnológico</div>
+        <p>Qué tecnologías usamos y por qué — sin versiones (esas viven en package.json).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Lo que falta implementar</div>
+        <p>Un checklist vivo de features pendientes. Se actualiza a medida que avanza el proyecto.</p>
+      </div>
+    </div>
+
+    <h3>¿Cómo la usa el agente?</h3>
+    <p>El skill <code>team</code> tiene como primer paso obligatorio leer <code>CLAUDE.md</code> antes de planificar cualquier tarea. Así garantiza que toda decisión técnica respeta los lineamientos acordados por el equipo.</p>
+    <pre><code><span class="comment"># Esto ocurre automáticamente en el Paso 0.5 de team:</span>
+<span class="comment"># 1. Lee CLAUDE.md  → arquitectura, reglas, convenciones</span>
+<span class="comment"># 2. Lee coding-learnings → patrones acumulados en sesiones anteriores</span>
+<span class="comment"># 3. Recién entonces planifica la tarea</span></code></pre>
+
+    <h3>¿Puedo leerla yo también?</h3>
+    <p>Sí, y deberías. Es el mejor punto de partida para entender el proyecto:</p>
+    <pre><code><span class="comment"># Pedirle al agente que te la explique:</span>
+explícame el contenido de CLAUDE.md
+
+<span class="comment"># O leerla directamente en el repositorio:</span>
+<span class="comment"># reclama-pro/CLAUDE.md</span></code></pre>
+
+    <h3>¿Qué pasa si el agente viola una regla de CLAUDE.md?</h3>
+    <p>Podés corregirlo directamente, haciendo referencia explícita al archivo:</p>
+    <pre><code>"Eso viola la regla de CLAUDE.md sobre server-only. Las queries deben recibir
+db como parámetro, no llamar getDb() internamente. Corrige eso."</code></pre>
+
+    <div class="callout tip">
+      <strong>CLAUDE.md es un documento vivo</strong>
+      Si durante el desarrollo se toma una decisión técnica importante que no está documentada, pedile al agente que la agregue: <em>"agrega esta decisión a CLAUDE.md"</em>. Así el documento crece con el proyecto.
+    </div>
+  </section>
+
+  <!-- ═══════════ SETUP ═══════════ -->
+  <section id="setup">
+    <h2><span class="icon">⚙️</span>Setup inicial</h2>
+    <p>Sigue estos pasos en orden. Solo necesitás hacerlos una vez en tu máquina.</p>
+
+    <h3>1. Instalar Claude Code</h3>
+    <p>Claude Code es una herramienta de línea de comandos (CLI). Necesitás Node.js 18+ instalado.</p>
+    <pre><code><span class="comment"># Instalar Claude Code globalmente</span>
+npm install -g @anthropic-ai/claude-code
+
+<span class="comment"># Verificar instalación</span>
+claude --version</code></pre>
+
+    <div class="callout info">
+      <strong>¿Qué es una CLI?</strong>
+      Es un programa que se usa desde la terminal (la pantalla negra donde escribís comandos). No tiene interfaz gráfica — todo se hace con texto.
+    </div>
+
+    <h3>2. Autenticarte</h3>
+    <p>Necesitás una cuenta en claude.ai con acceso a Claude Code.</p>
+    <pre><code><span class="comment"># Esto abre el navegador para autenticarte</span>
+claude</code></pre>
+
+    <h3>3. Clonar el repositorio</h3>
+    <pre><code>git clone [URL del repositorio]
+cd reclama-pro</code></pre>
+
+    <h3>4. Copiar las skills del proyecto</h3>
+    <p>Las skills son las "instrucciones especiales" que le damos al agente. Deben copiarse a una carpeta global de tu máquina.</p>
+
+    <div class="callout warn">
+      <strong>Importante</strong>
+      Pedile al líder del proyecto que te comparta la carpeta <code>~/.claude/commands/</code> o que la agreguen a un repositorio separado de configuración de equipo.
+    </div>
+
+    <p>Las skills necesarias son:</p>
+    <div class="chips">
+      <span class="chip">team/</span>
+      <span class="chip">team-pl/</span>
+      <span class="chip">team-sr/</span>
+      <span class="chip">team-dev/</span>
+      <span class="chip">coding-learnings/</span>
+      <span class="chip">save-plan/</span>
+      <span class="chip">firebase-admin/</span>
+      <span class="chip">nextjs-15/</span>
+      <span class="chip">react-19/</span>
+    </div>
+
+    <h3>5. Configurar variables de entorno</h3>
+    <pre><code><span class="comment"># Copiar el archivo de ejemplo</span>
+cp .env.local.example .env.local
+
+<span class="comment"># Abrir .env.local y completar con tus credenciales de Firebase</span>
+<span class="comment"># El valor es el JSON completo del service account</span>
+FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"...","private_key":"...","client_email":"..."}</code></pre>
+
+    <div class="callout warn">
+      <strong>Nunca subas .env.local a git</strong>
+      El archivo ya está en .gitignore. Contiene credenciales privadas — si las subís al repositorio, hay que rotarlas inmediatamente.
+    </div>
+
+    <h3>6. Verificar que todo funciona</h3>
+    <pre><code>npm install
+npm run dev      <span class="comment"># Debe iniciar en localhost:3000</span>
+npm run build    <span class="comment"># Debe completar sin errores</span></code></pre>
+
+    <h3>7. Abrir Claude Code en el proyecto</h3>
+    <pre><code><span class="comment"># Desde la raíz del proyecto:</span>
+claude</code></pre>
+    <p>Esto abre una sesión interactiva donde podés hablar con el agente. El agente leerá automáticamente el archivo <code>CLAUDE.md</code> del proyecto — ahí está toda la arquitectura y reglas del sistema.</p>
+  </section>
+
+  <!-- ═══════════ ARQUITECTURA ═══════════ -->
+  <section id="arquitectura">
+    <h2><span class="icon">🏗️</span>Arquitectura del proyecto</h2>
+    <p>Reclama Pro es un CRM multi-tenant: múltiples empresas usan el mismo sistema, pero sus datos están completamente aislados entre sí.</p>
+
+    <h3>Stack tecnológico</h3>
+    <table>
+      <thead>
+        <tr><th>Capa</th><th>Tecnología</th><th>Rol</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Frontend</strong></td><td>Next.js 15 App Router + React 19</td><td>Interfaz de usuario, Server Components</td></tr>
+        <tr><td><strong>Backend</strong></td><td>Next.js Server Actions / Route Handlers</td><td>BFF — lógica de negocio y seguridad (sin servidor separado)</td></tr>
+        <tr><td><strong>Base de datos</strong></td><td>Cloud Firestore</td><td>Almacenamiento jerárquico por empresa</td></tr>
+        <tr><td><strong>Autenticación</strong></td><td>Firebase Auth + Custom Claims</td><td>Roles tenant-aware (admin / agente)</td></tr>
+        <tr><td><strong>Estado cliente</strong></td><td>SWR</td><td>Caché y sincronización de datos en el navegador</td></tr>
+        <tr><td><strong>Deploy</strong></td><td>Vercel</td><td>Hosting y serverless functions</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Estructura de carpetas</h3>
+    <p>Las carpetas están organizadas por <strong>quién ejecuta el código</strong> (servidor o navegador), no por feature. Esto evita mezclar accidentalmente código que solo funciona en el servidor con código del cliente.</p>
+    <pre><code>src/
+├── app/                   <span class="comment"># Rutas de Next.js</span>
+│   ├── (auth)/            <span class="comment"># Login, registro — layout público</span>
+│   ├── (panel)/           <span class="comment"># Panel de agentes/admins — layout protegido</span>
+│   └── [slug]/            <span class="comment"># Portal del cliente — acceso por token</span>
+│
+├── components/ui/         <span class="comment"># Botones, inputs, badges — corre en el navegador</span>
+│
+├── lib/
+│   ├── firebase/admin.ts  <span class="comment"># ⚠️  SOLO SERVIDOR — credenciales Firebase</span>
+│   ├── actions/           <span class="comment"># ⚠️  SOLO SERVIDOR — mutaciones (crear, editar)</span>
+│   └── queries/           <span class="comment"># ⚠️  SOLO SERVIDOR — lecturas de Firestore</span>
+│
+├── types/index.ts         <span class="comment"># Interfaces TypeScript del dominio</span>
+└── constants/index.ts     <span class="comment"># Labels en español, categorías, estados</span></code></pre>
+
+    <div class="callout warn">
+      <strong>Regla crítica de arquitectura</strong>
+      Nunca importes algo de <code>lib/firebase/</code>, <code>lib/actions/</code> o <code>lib/queries/</code> desde un componente del navegador (<code>"use client"</code>). Esos archivos contienen credenciales y código que solo existe en el servidor.
+    </div>
+
+    <h3>Modelo de datos Firestore</h3>
+    <p>Los datos de cada empresa viven en su propia subcolección, completamente aislada:</p>
+    <pre><code>enterprises/{empresaId}
+  └── claims/{reclamoId}
+        └── history/{entradaId}</code></pre>
+  </section>
+
+  <!-- ═══════════ SKILLS ═══════════ -->
+  <section id="skills">
+    <h2><span class="icon">🧩</span>Skills disponibles</h2>
+    <p>Una <strong>skill</strong> es un archivo de instrucciones que le da al agente conocimiento especializado o un protocolo de trabajo. Se activan automáticamente cuando el agente detecta que son relevantes, o manualmente con un comando.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">👥</div>
+        <div class="card-title">team</div>
+        <div class="card-subtitle">/team [tarea]</div>
+        <p>El más importante. Activa el protocolo de desarrollo completo con 3 roles: Project Lead, Senior Dev y Dev Agent. Úsalo para cualquier tarea de código.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">openspec-propose</div>
+        <div class="card-subtitle">Automático via team</div>
+        <p>Genera los artefactos formales de una feature: propuesta, diseño técnico, specs y lista de tareas.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔨</div>
+        <div class="card-title">openspec-apply-change</div>
+        <div class="card-subtitle">Automático via team</div>
+        <p>Guía al Dev Agent en la implementación siguiendo los artefactos generados por propose.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📦</div>
+        <div class="card-title">openspec-archive-change</div>
+        <div class="card-subtitle">Automático via team</div>
+        <p>Archiva los artefactos de un cambio completado, manteniendo el historial del proyecto.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">openspec-explore</div>
+        <div class="card-subtitle">/openspec-explore</div>
+        <p>Modo exploración para pensar en voz alta, investigar el problema y clarificar requisitos antes de implementar.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">coding-learnings</div>
+        <div class="card-subtitle">Automático via team</div>
+        <p>Base de conocimiento viva. Se lee al inicio de cada sesión de team y se actualiza al finalizar features.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">save-plan</div>
+        <div class="card-subtitle">"guarda este plan"</div>
+        <p>Guarda solicitudes y planes en la carpeta .plans/ (gitignoreada) para llevar registro local de lo que pedís.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔥</div>
+        <div class="card-title">firebase-admin</div>
+        <div class="card-subtitle">Automático</div>
+        <p>Patrones específicos de Firebase Admin SDK para Node.js. Se activa cuando se trabaja con Firestore en el servidor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ROLES ═══════════ -->
+  <section id="roles">
+    <h2><span class="icon">🎭</span>Los 3 roles del equipo</h2>
+    <p>Cuando usás el comando <code>team</code>, el agente trabaja en secuencia asumiendo 3 roles distintos. Cada uno tiene responsabilidades claras y no avanza hasta completar las del anterior.</p>
+
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title"><span class="role pl">PL</span> Project Lead</div>
+        <p style="margin-top: 8px">Decide el plan, evalúa el riesgo, elige el protocolo (simple o formal) y define el criterio de "terminado". También hace la validación final.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <div class="card-title"><span class="role sr">SR</span> Senior Dev</div>
+        <p style="margin-top: 8px">Explora el codebase, decide qué archivos tocar, identifica riesgos y edge cases. Produce instrucciones precisas para el Dev. También hace code review.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💻</div>
+        <div class="card-title"><span class="role dev">DEV</span> Dev Agent</div>
+        <p style="margin-top: 8px">Implementa el código siguiendo exactamente las instrucciones del Senior. Lee cada archivo antes de modificarlo. No improvisa decisiones de diseño.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>Para usuarios nuevos</strong>
+      No necesitás entender exactamente qué hace cada rol. Lo importante es que el sistema muestra el output de cada paso y vos podés corregirlo antes de que continúe.
+    </div>
+  </section>
+
+  <!-- ═══════════ CÓMO TRABAJAR ═══════════ -->
+  <section id="como-trabajar">
+    <h2><span class="icon">🚀</span>Cómo trabajar día a día</h2>
+    <p>El 90% del tiempo vas a usar un solo comando: <code>team [descripción de la tarea]</code>. El agente evalúa la complejidad y elige automáticamente el protocolo adecuado.</p>
+
+    <h3>La regla de oro: contexto claro = mejor resultado</h3>
+    <p>El agente no adivina tu intención. Cuánto más claro seas, mejor será el resultado:</p>
+
+    <table>
+      <thead>
+        <tr><th>❌ Vago</th><th>✅ Claro y accionable</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"arregla el login"</td>
+          <td>"team corregir el bug donde el login de agentes no redirige al panel después de autenticarse correctamente"</td>
+        </tr>
+        <tr>
+          <td>"agregar una pantalla"</td>
+          <td>"team implementar la pantalla de detalle de reclamo en (panel), que muestre ticketNumber, status, categoría e historial de acciones"</td>
+        </tr>
+        <tr>
+          <td>"refactorizar queries"</td>
+          <td>"team refactorizar las queries de claims para que todas reciban db como parámetro en vez de llamar getDb() internamente"</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Flujo de una sesión típica</h3>
+    <ol class="steps">
+      <li>
+        <div class="step-content">
+          <div class="step-title">Abrís Claude Code en el proyecto</div>
+          <p>Desde la raíz del repositorio corrés <code>claude</code> en la terminal. El agente carga automáticamente el contexto del proyecto.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">Le describís la tarea</div>
+          <p>Escribís <code>team [descripción]</code>. No te preocupés por el protocolo — el PL lo decide.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">El PL te presenta el plan</div>
+          <p>Antes de escribir una línea de código, el agente muestra qué va a hacer. Podés corregirlo, agregar contexto o pedirle que reconsidere algo.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">El SR diseña la solución</div>
+          <p>El Senior Dev explora el codebase y presenta las decisiones técnicas. Otro momento para dar feedback antes de que empiece la implementación.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">El Dev implementa</div>
+          <p>Recién aquí se escribe código. Sigue las instrucciones del SR paso a paso, leyendo cada archivo antes de modificarlo.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">Review y validación</div>
+          <p>El SR revisa el código. El PL valida que cumple el criterio de "terminado". Solo entonces es un GO.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ═══════════ LIGHTWEIGHT ═══════════ -->
+  <section id="lightweight">
+    <h2><span class="icon">⚡</span>Protocolo Lightweight</h2>
+    <p>Para tareas simples y de bajo riesgo. Sin artefactos formales — solo código limpio y revisado.</p>
+
+    <div class="protocol light">
+      <h3>⚡ Cuándo el PL elige Lightweight</h3>
+      <ul>
+        <li>Bug fix que toca 1 a 3 archivos</li>
+        <li>Cambio de UI o lógica puntual</li>
+        <li>Ajuste simple sin impacto estructural</li>
+        <li>Análisis sin implementación</li>
+      </ul>
+    </div>
+
+    <h3>Secuencia de pasos</h3>
+    <div class="flow">
+      <div class="flow-step">0.5 Leer contexto</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role pl">PL</span> Plan + criterio de done</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role sr">SR</span> Diseño técnico</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role dev">DEV</span> Implementación</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role dev">DEV</span> Tests</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role sr">SR</span> Code review</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role pl">PL</span> GO / NO-GO</div>
+    </div>
+
+    <h3>Ejemplo de uso</h3>
+    <pre><code>team corregir el bug donde CLAIM_CATEGORIES muestra undefined en el badge de categoría</code></pre>
+    <pre><code>team agregar validación de email en el formulario de nuevo reclamo</code></pre>
+  </section>
+
+  <!-- ═══════════ STRUCTURED ═══════════ -->
+  <section id="structured">
+    <h2><span class="icon">📐</span>Protocolo Structured</h2>
+    <p>Para features importantes que requieren trazabilidad. Genera artefactos escritos en la carpeta <code>openspec/changes/</code> que quedan en el repositorio.</p>
+
+    <div class="protocol structured">
+      <h3>📐 Cuándo el PL elige Structured</h3>
+      <ul>
+        <li>Feature nueva con impacto en múltiples módulos</li>
+        <li>Cambio que toca arquitectura o contratos entre capas</li>
+        <li>Refactor estructural</li>
+        <li>Riesgo alto o requisito ambiguo</li>
+        <li>Se necesita registro formal del diseño</li>
+      </ul>
+    </div>
+
+    <h3>Secuencia de pasos</h3>
+    <div class="flow">
+      <div class="flow-step">0.5 Leer contexto</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role pl">PL</span> Propuesta OpenSpec</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role sr">SR</span> Design + Specs + Tasks</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role dev">DEV</span> Implementación</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role dev">DEV</span> Tests</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role sr">SR</span> Code review</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="role pl">PL</span> GO / NO-GO</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">Archivar</div>
+    </div>
+
+    <h3>Artefactos que genera</h3>
+    <pre><code>openspec/changes/{fecha}-{nombre-feature}/
+├── .openspec.yaml    <span class="comment"># Metadatos del cambio</span>
+├── proposal.md       <span class="comment"># Por qué, qué cambia, impacto</span>
+├── design.md         <span class="comment"># Decisiones técnicas con justificación</span>
+├── tasks.md          <span class="comment"># Checklist de implementación</span>
+└── specs/
+    └── {spec}.md     <span class="comment"># Requisitos formales (GIVEN/WHEN/THEN)</span></code></pre>
+
+    <h3>Forzar el protocolo Structured</h3>
+    <pre><code><span class="comment"># El PL lo elige automáticamente, pero podés forzarlo:</span>
+team [structured] implementar autenticación con Firebase Auth y Custom Claims</code></pre>
+
+    <h3>Ejemplo de uso</h3>
+    <pre><code>team implementar el módulo de autenticación completo con login, Custom Claims y middleware de protección de rutas</code></pre>
+  </section>
+
+  <!-- ═══════════ OPENSPEC ═══════════ -->
+  <section id="openspec">
+    <h2><span class="icon">📋</span>OpenSpec en detalle</h2>
+    <p>OpenSpec es el sistema de documentación formal del proyecto. Es como un "contrato escrito" para cada feature: qué se va a construir, por qué, cómo, y cómo verificar que está bien hecho.</p>
+
+    <div class="callout info">
+      <strong>¿Por qué OpenSpec?</strong>
+      Sin documentación formal, en 3 meses nadie recuerda por qué se tomó cierta decisión. OpenSpec hace que las decisiones técnicas queden escritas y versionadas en git.
+    </div>
+
+    <h3>El flujo completo de OpenSpec</h3>
+    <div class="flow" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="flow-step" style="min-width: 160px;">1. explore (opcional)</div>
+        <span style="color: var(--text-muted); font-size: 13px;">Pensar en voz alta antes de comprometerse con una solución</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="flow-step" style="min-width: 160px;">2. propose</div>
+        <span style="color: var(--text-muted); font-size: 13px;">Genera proposal.md, design.md, specs/ y tasks.md</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="flow-step" style="min-width: 160px;">3. apply-change</div>
+        <span style="color: var(--text-muted); font-size: 13px;">Implementa siguiendo tasks.md, tildando cada ítem</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="flow-step" style="min-width: 160px;">4. archive-change</div>
+        <span style="color: var(--text-muted); font-size: 13px;">Mueve a openspec/changes/archive/ — queda en el historial</span>
+      </div>
+    </div>
+
+    <h3>Ver el estado actual del proyecto</h3>
+    <pre><code><span class="comment"># Ver qué changes están activos (no archivados)</span>
+ls openspec/changes/
+
+<span class="comment"># Ver el historial de features completadas</span>
+ls openspec/changes/archive/
+
+<span class="comment"># Ver las specs base del proyecto (no cambian por feature)</span>
+ls openspec/specs/</code></pre>
+
+    <h3>Cuando usar explore antes de propose</h3>
+    <p>Si el requerimiento es ambiguo o no tenés claro cómo debería funcionar algo, usá explore primero:</p>
+    <pre><code><span class="comment"># En Claude Code, invocar directamente:</span>
+/openspec-explore
+
+<span class="comment"># Luego describir el problema:</span>
+"Necesito pensar cómo manejar el caso donde un cliente quiere re-abrir un reclamo cerrado.
+¿Debería cambiar el status directamente o crear un nuevo reclamo vinculado?"</code></pre>
+  </section>
+
+  <!-- ═══════════ COMANDOS ═══════════ -->
+  <section id="comandos">
+    <h2><span class="icon">⌨️</span>Comandos de referencia</h2>
+
+    <div class="cmd-block">
+      <div class="cmd-header">
+        <span class="cmd-name">team [tarea]</span>
+        <span class="cmd-tag always">Uso diario</span>
+      </div>
+      <div class="cmd-body">
+        <p>El comando principal. Activa el protocolo completo (PL → SR → DEV → review → validación). El PL decide automáticamente si usa Lightweight o Structured.</p>
+        <pre><code>team implementar filtro de reclamos por status en el panel
+team corregir el bug donde el counter de reclamos no se actualiza
+team refactorizar queries para recibir db como parámetro</code></pre>
+      </div>
+    </div>
+
+    <div class="cmd-block">
+      <div class="cmd-header">
+        <span class="cmd-name">team [structured] [tarea]</span>
+        <span class="cmd-tag when-needed">Cuando necesitás trazabilidad</span>
+      </div>
+      <div class="cmd-body">
+        <p>Fuerza el protocolo Structured con artefactos OpenSpec, independientemente del tamaño de la tarea.</p>
+        <pre><code>team [structured] implementar autenticación completa con Firebase Auth</code></pre>
+      </div>
+    </div>
+
+    <div class="cmd-block">
+      <div class="cmd-header">
+        <span class="cmd-name">/openspec-explore</span>
+        <span class="cmd-tag when-needed">Antes de features complejas</span>
+      </div>
+      <div class="cmd-body">
+        <p>Modo exploración. Útil para pensar en voz alta, investigar el codebase sin compromiso, o clarificar un requisito ambiguo antes de implementar.</p>
+      </div>
+    </div>
+
+    <div class="cmd-block">
+      <div class="cmd-header">
+        <span class="cmd-name">"guarda este plan" / "registra esto"</span>
+        <span class="cmd-tag when-needed">Para registro personal</span>
+      </div>
+      <div class="cmd-body">
+        <p>Activa el skill save-plan. Guarda la solicitud actual en <code>.plans/</code> como archivo markdown con fecha. No se sube a git.</p>
+        <pre><code>guarda este plan: queremos agregar notificaciones por email cuando cambia el status de un reclamo</code></pre>
+      </div>
+    </div>
+
+    <div class="cmd-block">
+      <div class="cmd-header">
+        <span class="cmd-name">/help</span>
+        <span class="cmd-tag always">Siempre disponible</span>
+      </div>
+      <div class="cmd-body">
+        <p>Muestra ayuda general de Claude Code. Útil si estás perdido.</p>
+      </div>
+    </div>
+
+    <h3>Preguntarle cosas al agente (sin team)</h3>
+    <p>Podés hablarle directamente al agente para preguntas, sin activar el protocolo team:</p>
+    <pre><code><span class="comment"># Preguntas sobre el código</span>
+¿qué hace la función getDb() y cuándo debo usarla?
+explícame cómo funciona el modelo multi-tenant en Firestore
+
+<span class="comment"># Explorar el codebase</span>
+¿qué archivos hay en src/lib/?
+muéstrame cómo están definidos los tipos de Claim</code></pre>
+  </section>
+
+  <!-- ═══════════ MODELO DE DATOS ═══════════ -->
+  <section id="modelo-datos">
+    <h2><span class="icon">🗃️</span>Modelo de datos</h2>
+    <p>Estos son los tipos que usa el proyecto. Están definidos en <code>src/types/index.ts</code> y representan exactamente cómo se guardan los datos en Firestore.</p>
+
+    <h3>Enterprise (Empresa)</h3>
+    <pre><code><span class="kw">interface</span> <span class="fn">Enterprise</span> {
+  id: <span class="str">string</span>;
+  name: <span class="str">string</span>;           <span class="comment">// "Tienda ABC"</span>
+  slug: <span class="str">string</span>;           <span class="comment">// "tienda-abc" — aparece en la URL del portal</span>
+  plan: <span class="str">'basic'</span> | <span class="str">'pro'</span> | <span class="str">'enterprise'</span>;
+  claimCounter: <span class="str">number</span>;  <span class="comment">// Para generar ticketNumber únicos</span>
+  createdAt: Timestamp;
+}</code></pre>
+
+    <h3>Claim (Reclamo)</h3>
+    <pre><code><span class="kw">interface</span> <span class="fn">Claim</span> {
+  id: <span class="str">string</span>;
+  ticketNumber: <span class="str">string</span>;     <span class="comment">// Ej: "REC-0042"</span>
+  status: ClaimStatus;        <span class="comment">// Ver abajo</span>
+  category: ClaimCategory;    <span class="comment">// Ver abajo</span>
+  subject: <span class="str">string</span>;
+  description: <span class="str">string</span>;
+  customerName: <span class="str">string</span>;
+  customerEmail: <span class="str">string</span>;
+  accessToken: <span class="str">string</span>;      <span class="comment">// Token del link que se le manda al cliente</span>
+  rating: <span class="str">number</span> | <span class="str">null</span>;    <span class="comment">// 1-5, null si no calificó</span>
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}</code></pre>
+
+    <h3>Estados y categorías</h3>
+    <table>
+      <thead><tr><th>ClaimStatus</th><th>Label en UI</th></tr></thead>
+      <tbody>
+        <tr><td><code>'open'</code></td><td>Abierto</td></tr>
+        <tr><td><code>'in_progress'</code></td><td>En progreso</td></tr>
+        <tr><td><code>'resolved'</code></td><td>Resuelto</td></tr>
+        <tr><td><code>'closed'</code></td><td>Cerrado</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead><tr><th>ClaimCategory</th><th>Label en UI</th></tr></thead>
+      <tbody>
+        <tr><td><code>'defective_product'</code></td><td>Producto defectuoso</td></tr>
+        <tr><td><code>'delivery_delay'</code></td><td>Retraso en entrega</td></tr>
+        <tr><td><code>'poor_service'</code></td><td>Mal servicio al cliente</td></tr>
+        <tr><td><code>'billing_error'</code></td><td>Error en cobro / facturación</td></tr>
+        <tr><td><code>'warranty'</code></td><td>Garantía</td></tr>
+        <tr><td><code>'other'</code></td><td>Otro</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════ TIPS ═══════════ -->
+  <section id="tips">
+    <h2><span class="icon">💎</span>Tips y buenas prácticas</h2>
+
+    <h3>Corregir al agente durante el flujo</h3>
+    <p>El agente muestra el plan del PL y el diseño del SR <strong>antes de escribir código</strong>. Ese es el momento ideal para corregir.</p>
+    <pre><code><span class="comment"># El PL presenta su plan, y vos podés responder:</span>
+"El criterio de done debería incluir que los tests pasan. Agrega eso."
+
+"Espera, la validación del accessToken debería hacerse en el BFF, no en el componente."
+
+"Ese approach está bien pero no toques el archivo de tipos, solo crea la query."</code></pre>
+
+    <h3>Si algo sale mal</h3>
+    <p>El agente puede equivocarse. Si ves código incorrecto:</p>
+    <pre><code><span class="comment"># Pedile que revierta y reintente con más contexto:</span>
+"Eso no es correcto, la función getDb() no se llama internamente en las queries.
+Lee CLAUDE.md sección 'Convenciones de código' y rehace la implementación."
+
+<span class="comment"># O simplemente:</span>
+"Deshaz ese cambio y explícame qué ibas a hacer antes de hacerlo."</code></pre>
+
+    <h3>Dar contexto de negocio, no solo técnico</h3>
+    <p>El agente toma mejores decisiones cuando entiende el "para qué":</p>
+    <pre><code><span class="comment"># ❌ Solo técnico</span>
+team agregar campo priority al modelo Claim
+
+<span class="comment"># ✅ Con contexto de negocio</span>
+team agregar campo priority (low/medium/high) al modelo Claim.
+La idea es que los agentes puedan filtrar primero los reclamos urgentes en el panel.</code></pre>
+
+    <h3>No interrumpir el protocolo team sin razón</h3>
+    <p>Cada paso del protocolo (PL → SR → DEV → review) existe por una razón. Si saltás pasos, perdés la garantía de calidad que da el sistema. Dejá que fluya completo.</p>
+
+    <h3>Mantener CLAUDE.md actualizado</h3>
+    <p>Si se toma una decisión técnica importante durante una sesión, pedile al agente que la agregue a <code>CLAUDE.md</code>. Ese archivo es la memoria del proyecto.</p>
+    <pre><code>"Agrega esta decisión a CLAUDE.md: usamos CSS Modules (no Tailwind) para los estilos
+del portal del cliente para mantener el CSS acotado por componente."</code></pre>
+
+    <h3>Revisar los artefactos OpenSpec</h3>
+    <p>Después de que el equipo trabaja en una feature Structured, revisá los archivos generados en <code>openspec/changes/</code>. Son la documentación viva del proyecto.</p>
+  </section>
+
+  <!-- ═══════════ GLOSARIO ═══════════ -->
+  <section id="glosario">
+    <h2><span class="icon">📖</span>Glosario</h2>
+
+    <table>
+      <thead><tr><th>Término</th><th>Qué significa</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Agente de IA</strong></td><td>Modelo de lenguaje que puede usar herramientas (leer/escribir archivos, correr comandos) para completar tareas de forma autónoma.</td></tr>
+        <tr><td><strong>Claude Code</strong></td><td>El agente de IA de Anthropic que usamos. Corre en la terminal y trabaja directamente en el repositorio.</td></tr>
+        <tr><td><strong>Skill</strong></td><td>Archivo de instrucciones que le da al agente conocimiento especializado o un protocolo de trabajo. Viven en <code>~/.claude/commands/</code>.</td></tr>
+        <tr><td><strong>CLAUDE.md</strong></td><td>La "constitución" del proyecto. El agente lo lee automáticamente al iniciar cada sesión. Contiene arquitectura, reglas y convenciones.</td></tr>
+        <tr><td><strong>BFF</strong></td><td>Backend for Frontend. Un patrón donde Next.js actúa como backend (Server Actions), sin necesitar un servidor Express separado.</td></tr>
+        <tr><td><strong>Server Action</strong></td><td>Función de Next.js que corre en el servidor pero se puede llamar desde el cliente. Es como una API endpoint simplificada.</td></tr>
+        <tr><td><strong>Server Component</strong></td><td>Componente de React que renderiza en el servidor y puede acceder directamente a la base de datos. No tiene estado ni eventos del navegador.</td></tr>
+        <tr><td><strong>Multi-tenant</strong></td><td>Un sistema donde múltiples organizaciones (empresas) usan la misma aplicación pero con datos completamente separados.</td></tr>
+        <tr><td><strong>Custom Claims</strong></td><td>Datos adicionales que Firebase Auth puede "tatuar" en el token de un usuario. Lo usamos para guardar el enterpriseId y el role.</td></tr>
+        <tr><td><strong>SWR</strong></td><td>Librería de React para fetching de datos con caché automático. El nombre viene de "stale-while-revalidate".</td></tr>
+        <tr><td><strong>OpenSpec</strong></td><td>Sistema de documentación formal del proyecto. Cada feature importante genera artefactos (propuesta, diseño, specs, tareas) que quedan en git.</td></tr>
+        <tr><td><strong>Singleton</strong></td><td>Patrón de diseño que garantiza que solo existe una instancia de algo. Lo usamos para Firebase Admin para evitar múltiples conexiones.</td></tr>
+        <tr><td><strong>Lightweight</strong></td><td>Protocolo de trabajo simple para tareas pequeñas. Sin artefactos formales, solo plan → código → review.</td></tr>
+        <tr><td><strong>Structured</strong></td><td>Protocolo formal para features importantes. Genera artefactos OpenSpec con propuesta, diseño y specs.</td></tr>
+        <tr><td><strong>Criterio de done</strong></td><td>Lista de condiciones verificables que deben cumplirse para considerar una tarea terminada. Lo define el PL al inicio.</td></tr>
+        <tr><td><strong>scope creep</strong></td><td>Cuando una tarea empieza a crecer más allá de lo acordado. El PL verifica que el Dev no haya tocado código fuera del scope.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout tip" style="margin-top: 32px;">
+      <strong>¿Dudas o problemas?</strong>
+      Si algo no funciona como esperás, pedile ayuda directamente al agente: "no entiendo qué pasó en el último paso, explicame qué hiciste y por qué". El agente puede explicar sus propias decisiones.
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Navegación activa en sidebar
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>

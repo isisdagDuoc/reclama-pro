@@ -1,0 +1,23 @@
+.root {
+  --color-sidebar: #1d4ed8;
+  --color-cta: #059669;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-surface: #f8fafc;
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-nav-text: rgba(255, 255, 255, 0.65);
+  --color-nav-active: rgba(255, 255, 255, 0.15);
+  --color-nav-active-text: #ffffff;
+
+  display: flex;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.main {
+  flex: 1;
+  background-color: var(--color-surface);
+  overflow-y: auto;
+  padding: 32px;
+}
