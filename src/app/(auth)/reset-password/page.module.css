@@ -10,7 +10,7 @@
 
 .header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .logo {
@@ -66,7 +66,16 @@
   cursor: not-allowed;
 }
 
-.error {
+.inputError {
+  border-color: var(--color-error);
+}
+
+.fieldError {
+  font-size: 12px;
+  color: var(--color-error);
+}
+
+.errorBox {
   font-size: 14px;
   color: var(--color-error);
   background-color: var(--color-error-bg);
@@ -84,7 +93,6 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.15s;
-  margin-top: 4px;
 }
 
 .button:hover:not(:disabled) {
@@ -96,8 +104,20 @@
   cursor: not-allowed;
 }
 
+.stateBox {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.stateText {
+  font-size: 15px;
+  color: var(--color-text);
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+
 .link {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-primary);
   text-decoration: none;
 }
@@ -106,9 +126,23 @@
   text-decoration: underline;
 }
 
-.registerPrompt {
+.footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.backLink {
   font-size: 13px;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  font-size: 14px;
   color: var(--color-text-muted);
   text-align: center;
-  margin: 0;
 }
