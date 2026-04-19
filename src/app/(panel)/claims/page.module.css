@@ -1,0 +1,36 @@
+.page {
+  max-width: 1100px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.newButton {
+  background-color: var(--color-cta);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.newButton:hover {
+  background-color: #047857;
+}
+
+.empty {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
