@@ -11,9 +11,11 @@ const STATUSES: ClaimStatus[] = ['open', 'in_progress', 'resolved', 'closed']
 export function ClaimsFilters({
   currentStatus,
   currentSearch,
+  counts,
 }: {
   currentStatus?: string
   currentSearch?: string
+  counts: Record<ClaimStatus, number>
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -41,25 +43,19 @@ export function ClaimsFilters({
   return (
     <div className={styles.bar}>
       <div className={styles.tabs}>
-        <a
-          href={buildUrl(undefined, currentSearch)}
-          className={`${styles.tab} ${!currentStatus ? styles.tabActive : ''}`}
-        >
-          Todos
-        </a>
         {STATUSES.map(status => (
           <a
             key={status}
-            href={buildUrl(status, currentSearch)}
-            className={`${styles.tab} ${currentStatus === status ? styles.tabActive : ''}`}
+            href={buildUrl(currentStatus === status ? undefined : status, currentSearch)}
+            className={`${styles.tab} ${styles[status]} ${currentStatus === status ? styles.tabActive : styles.tabInactive}`}
           >
-            {CLAIM_STATUSES[status]}
+            {CLAIM_STATUSES[status]} ({counts[status]})
           </a>
         ))}
       </div>
       <input
         type="search"
-        placeholder="Buscar cliente o ticket..."
+        placeholder="Buscar..."
         defaultValue={currentSearch}
         onChange={e => handleSearch(e.target.value)}
         className={styles.search}

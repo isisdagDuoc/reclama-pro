@@ -1,6 +1,30 @@
 import type { Firestore } from 'firebase-admin/firestore'
 import type { Claim, ClaimStatus } from '@/types'
 
+export async function getClaimCounts(
+  db: Firestore,
+  enterpriseId: string
+): Promise<Record<ClaimStatus, number>> {
+  const base = db
+    .collection('enterprises')
+    .doc(enterpriseId)
+    .collection('claims')
+
+  const [open, inProgress, resolved, closed] = await Promise.all([
+    base.where('status', '==', 'open').count().get(),
+    base.where('status', '==', 'in_progress').count().get(),
+    base.where('status', '==', 'resolved').count().get(),
+    base.where('status', '==', 'closed').count().get(),
+  ])
+
+  return {
+    open: open.data().count,
+    in_progress: inProgress.data().count,
+    resolved: resolved.data().count,
+    closed: closed.data().count,
+  }
+}
+
 interface ClaimsFilter {
   status?: ClaimStatus
   search?: string
