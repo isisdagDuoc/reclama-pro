@@ -16,7 +16,7 @@ interface CreateClaimInput {
 
 export async function createClaim(
   input: CreateClaimInput
-): Promise<{ claimId: string } | { error: string }> {
+): Promise<{ error: string }> {
   const session = await getSessionUser()
   if (!session) redirect('/login')
 
@@ -24,6 +24,7 @@ export async function createClaim(
   const db = getFirestore(getFirebaseAdmin())
   const enterpriseRef = db.collection('enterprises').doc(enterpriseId)
 
+  let claimId: string
   try {
     const result = await db.runTransaction(async (tx) => {
       const enterpriseSnap = await tx.get(enterpriseRef)
@@ -49,8 +50,10 @@ export async function createClaim(
       return { claimId: claimRef.id }
     })
 
-    return result
+    claimId = result.claimId
   } catch {
     return { error: 'No se pudo crear el reclamo. Intenta de nuevo.' }
   }
+
+  redirect(`/claims/${claimId}?created=1`)
 }

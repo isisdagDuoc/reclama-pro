@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClaim } from '@/lib/actions/claims'
 import { CLAIM_CATEGORIES } from '@/constants'
@@ -9,7 +8,6 @@ import type { ClaimCategory } from '@/types'
 import styles from './page.module.css'
 
 export default function NewClaimPage() {
-  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [customerName, setCustomerName] = useState('')
@@ -39,12 +37,9 @@ export default function NewClaimPage() {
     })
     setLoading(false)
 
-    if ('error' in result) {
+    if (result?.error) {
       setError(result.error)
-      return
     }
-
-    router.push(`/claims/${result.claimId}`)
   }
 
   return (
