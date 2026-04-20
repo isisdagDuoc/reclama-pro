@@ -84,10 +84,25 @@
   flex-shrink: 0;
 }
 
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
 .userName {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
+  font-size: 0.72rem;
+  color: #ffffff;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userRole {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .logoutButton {
