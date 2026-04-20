@@ -1,5 +1,5 @@
 import type { Firestore } from 'firebase-admin/firestore'
-import type { Claim, ClaimStatus } from '@/types'
+import type { Claim, ClaimStatus, Enterprise, HistoryEntry } from '@/types'
 
 export async function getClaimCounts(
   db: Firestore,
@@ -75,4 +75,30 @@ export async function getClaim(
 
   if (!snap.exists) return null
   return { id: snap.id, ...snap.data() } as Claim
+}
+
+export async function getClaimHistory(
+  db: Firestore,
+  enterpriseId: string,
+  claimId: string
+): Promise<HistoryEntry[]> {
+  const snap = await db
+    .collection('enterprises')
+    .doc(enterpriseId)
+    .collection('claims')
+    .doc(claimId)
+    .collection('history')
+    .orderBy('timestamp', 'asc')
+    .get()
+
+  return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as HistoryEntry)
+}
+
+export async function getEnterprise(
+  db: Firestore,
+  enterpriseId: string
+): Promise<Enterprise | null> {
+  const snap = await db.collection('enterprises').doc(enterpriseId).get()
+  if (!snap.exists) return null
+  return { id: snap.id, ...snap.data() } as Enterprise
 }

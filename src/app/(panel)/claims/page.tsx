@@ -45,7 +45,7 @@ export default async function ClaimsPage({
         {claims.length === 0 ? (
           <p className={styles.empty}>
             {status
-              ? `No hay reclamos ${CLAIM_STATUSES[status as ClaimStatus].toLowerCase()}s.`
+              ? status === 'in_progress' ? 'No hay reclamos en progreso.' : `No hay reclamos ${CLAIM_STATUSES[status as ClaimStatus].toLowerCase()}s.`
               : search
               ? `No se encontraron reclamos para "${search}".`
               : 'No hay reclamos aún.'}

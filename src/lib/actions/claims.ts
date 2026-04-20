@@ -4,7 +4,8 @@ import { redirect } from 'next/navigation'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { getFirebaseAdmin } from '@/lib/firebase/admin'
 import { getSessionUser } from '@/lib/firebase/session'
-import type { ClaimCategory } from '@/types'
+import { CLAIM_STATUSES } from '@/constants'
+import type { ClaimCategory, ClaimStatus } from '@/types'
 
 interface CreateClaimInput {
   customerName: string
@@ -56,4 +57,70 @@ export async function createClaim(
   }
 
   redirect(`/claims/${claimId}?created=1`)
+}
+
+export async function updateClaimStatus(
+  claimId: string,
+  newStatus: ClaimStatus
+): Promise<void> {
+  const session = await getSessionUser()
+  if (!session) redirect('/login')
+
+  const { enterpriseId, uid } = session
+  const db = getFirestore(getFirebaseAdmin())
+
+  const userSnap = await db.collection('enterpriseUsers').doc(uid).get()
+  const authorName = (userSnap.data()?.name as string) ?? 'Agente'
+
+  const claimRef = db
+    .collection('enterprises')
+    .doc(enterpriseId)
+    .collection('claims')
+    .doc(claimId)
+
+  await db.runTransaction(async (tx) => {
+    tx.update(claimRef, {
+      status: newStatus,
+      updatedAt: FieldValue.serverTimestamp(),
+    })
+    tx.set(claimRef.collection('history').doc(), {
+      action: `Estado cambiado a: ${CLAIM_STATUSES[newStatus]}`,
+      authorId: uid,
+      authorName,
+      authorRole: 'agent',
+      timestamp: FieldValue.serverTimestamp(),
+    })
+  })
+
+  redirect(`/claims/${claimId}`)
+}
+
+export async function addReply(
+  claimId: string,
+  message: string
+): Promise<{ error: string } | void> {
+  const session = await getSessionUser()
+  if (!session) redirect('/login')
+
+  const { enterpriseId, uid } = session
+  const db = getFirestore(getFirebaseAdmin())
+
+  const userSnap = await db.collection('enterpriseUsers').doc(uid).get()
+  const authorName = (userSnap.data()?.name as string) ?? 'Agente'
+
+  await db
+    .collection('enterprises')
+    .doc(enterpriseId)
+    .collection('claims')
+    .doc(claimId)
+    .collection('history')
+    .add({
+      action: message,
+      authorId: uid,
+      authorName,
+      authorRole: 'agent',
+      timestamp: FieldValue.serverTimestamp(),
+    })
+
+  redirect(`/claims/${claimId}`)
 }
