@@ -117,21 +117,26 @@ export async function addReply(
   const claimSnap = await claimRef.get()
   const currentStatus = claimSnap.data()?.status
 
-  await db.runTransaction(async (tx) => {
-    if (currentStatus === 'open') {
-      tx.update(claimRef, {
-        status: 'in_progress',
-        updatedAt: FieldValue.serverTimestamp(),
+  try {
+    await db.runTransaction(async (tx) => {
+      if (currentStatus === 'open') {
+        tx.update(claimRef, {
+          status: 'in_progress',
+          updatedAt: FieldValue.serverTimestamp(),
+        })
+      }
+      tx.set(claimRef.collection('history').doc(), {
+        action: message,
+        authorId: uid,
+        authorName,
+        authorRole: 'agent',
+        timestamp: FieldValue.serverTimestamp(),
       })
-    }
-    tx.set(claimRef.collection('history').doc(), {
-      action: message,
-      authorId: uid,
-      authorName,
-      authorRole: 'agent',
-      timestamp: FieldValue.serverTimestamp(),
     })
-  })
+  } catch {
+    return { error: 'No se pudo enviar la respuesta. Intenta de nuevo.' }
+  }
 
-  redirect(`/claims/${claimId}`)
+  const { revalidatePath } = await import('next/cache')
+  revalidatePath(`/claims/${claimId}`)
 }
