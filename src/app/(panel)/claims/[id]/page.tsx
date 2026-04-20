@@ -10,24 +10,11 @@ import { CopyLinkButton } from './_components/CopyLinkButton'
 import type { ClaimStatus } from '@/types'
 import styles from './page.module.css'
 
-const STATUS_TRANSITIONS: Record<ClaimStatus, ClaimStatus[]> = {
-  open:        ['in_progress'],
-  in_progress: ['resolved', 'closed'],
-  resolved:    ['closed'],
-  closed:      [],
-}
-
-const ACTION_LABELS: Record<ClaimStatus, string> = {
-  in_progress: '▶ Iniciar proceso',
-  resolved:    '✓ Marcar como resuelto',
-  closed:      '✕ Cerrar',
-}
-
-const ACTION_STYLE: Record<ClaimStatus, string> = {
-  in_progress: 'actionBlue',
-  resolved:    'actionGreen',
-  closed:      'actionRed',
-}
+const STATUS_BUTTONS: { status: ClaimStatus; label: string; style: string }[] = [
+  { status: 'in_progress', label: 'En progreso', style: 'btnInProgress' },
+  { status: 'resolved',    label: 'Resuelto',    style: 'btnResolved' },
+  { status: 'closed',      label: 'Cerrado',     style: 'btnClosed' },
+]
 
 export default async function ClaimPage({
   params,
@@ -50,7 +37,6 @@ export default async function ClaimPage({
   ])
   if (!claim) notFound()
 
-  const nextStatuses = STATUS_TRANSITIONS[claim.status]
   const clientUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${enterprise?.slug}?token=${claim.accessToken}`
 
   return (
@@ -120,27 +106,23 @@ export default async function ClaimPage({
               {CLAIM_STATUSES[claim.status]}
             </span>
 
-            {nextStatuses.length > 0 && (
-              <>
-                <p className={styles.sideLabel} style={{ marginTop: 16 }}>CAMBIAR A</p>
-                <div className={styles.actionButtons}>
-                  {nextStatuses.map(next => {
-                    const action = updateClaimStatus.bind(null, claim.id, next)
-                    return (
-                      <form key={next} action={action}>
-                        <button
-                          type="submit"
-                          className={`${styles.actionBtn} ${styles[ACTION_STYLE[next]]}`}
-                        >
-                          {ACTION_LABELS[next]}
-                        </button>
-                      </form>
-                    )
-                  })}
-                </div>
-                <p className={styles.sideHint}>Solo se muestran los pasos siguientes posibles.</p>
-              </>
-            )}
+            <div className={styles.actionButtons} style={{ marginTop: 12 }}>
+              {STATUS_BUTTONS.map(({ status, label, style }) => {
+                const isActive = claim.status === status
+                const action = updateClaimStatus.bind(null, claim.id, status)
+                return (
+                  <form key={status} action={action}>
+                    <button
+                      type="submit"
+                      disabled={isActive}
+                      className={`${styles.actionBtn} ${styles[style]} ${isActive ? styles.actionActive : ''}`}
+                    >
+                      {label}
+                    </button>
+                  </form>
+                )
+              })}
+            </div>
           </div>
 
           {/* Cliente */}
