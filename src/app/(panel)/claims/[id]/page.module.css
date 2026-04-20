@@ -215,23 +215,14 @@
   transition: background-color 0.15s;
 }
 
-.btnInProgress { border: 1.5px solid #92400e; color: #92400e; }
-.btnInProgress:hover:not(:disabled) { background-color: #fef3c7; }
+.actionBlue  { background-color: #f0fdf4; border: 1.5px solid #065f46; color: #065f46; }
+.actionBlue:hover  { background-color: #d1fae5; }
 
-.btnResolved { border: 1.5px solid #065f46; color: #065f46; }
-.btnResolved:hover:not(:disabled) { background-color: #d1fae5; }
+.actionGreen { background-color: #f0fdf4; border: 1.5px solid #065f46; color: #065f46; }
+.actionGreen:hover { background-color: #d1fae5; }
 
-.btnClosed { border: 1.5px solid #991b1b; color: #991b1b; }
-.btnClosed:hover:not(:disabled) { background-color: #fee2e2; }
-
-.actionActive {
-  opacity: 1;
-  cursor: default;
-}
-
-.btnInProgress.actionActive { background-color: #fef3c7; }
-.btnResolved.actionActive   { background-color: #d1fae5; }
-.btnClosed.actionActive     { background-color: #fee2e2; }
+.actionRed   { background-color: #fff1f2; border: 1.5px solid #991b1b; color: #991b1b; }
+.actionRed:hover   { background-color: #fee2e2; }
 
 /* Link card */
 .linkCard {

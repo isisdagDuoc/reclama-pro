@@ -108,19 +108,30 @@ export async function addReply(
   const userSnap = await db.collection('enterpriseUsers').doc(uid).get()
   const authorName = (userSnap.data()?.name as string) ?? 'Agente'
 
-  await db
+  const claimRef = db
     .collection('enterprises')
     .doc(enterpriseId)
     .collection('claims')
     .doc(claimId)
-    .collection('history')
-    .add({
+
+  const claimSnap = await claimRef.get()
+  const currentStatus = claimSnap.data()?.status
+
+  await db.runTransaction(async (tx) => {
+    if (currentStatus === 'open') {
+      tx.update(claimRef, {
+        status: 'in_progress',
+        updatedAt: FieldValue.serverTimestamp(),
+      })
+    }
+    tx.set(claimRef.collection('history').doc(), {
       action: message,
       authorId: uid,
       authorName,
       authorRole: 'agent',
       timestamp: FieldValue.serverTimestamp(),
     })
+  })
 
   redirect(`/claims/${claimId}`)
 }
