@@ -38,8 +38,7 @@ export async function getClaims(
   let query = db
     .collection('enterprises')
     .doc(enterpriseId)
-    .collection('claims')
-    .orderBy('createdAt', 'desc') as FirebaseFirestore.Query
+    .collection('claims') as FirebaseFirestore.Query
 
   if (filter?.status) {
     query = query.where('status', '==', filter.status)
@@ -47,6 +46,8 @@ export async function getClaims(
 
   const snap = await query.get()
   let claims = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Claim)
+
+  claims.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
 
   if (filter?.search) {
     const term = filter.search.toLowerCase()

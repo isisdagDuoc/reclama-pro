@@ -43,7 +43,13 @@ export default async function ClaimsPage({
         <ClaimsFilters currentStatus={status} currentSearch={search} counts={counts} />
 
         {claims.length === 0 ? (
-          <p className={styles.empty}>No hay reclamos para estos filtros.</p>
+          <p className={styles.empty}>
+            {status
+              ? `No hay reclamos ${CLAIM_STATUSES[status as ClaimStatus].toLowerCase()}s.`
+              : search
+              ? `No se encontraron reclamos para "${search}".`
+              : 'No hay reclamos aún.'}
+          </p>
         ) : (
           <table className={styles.table}>
             <thead>

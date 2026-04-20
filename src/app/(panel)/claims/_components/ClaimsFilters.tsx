@@ -21,6 +21,8 @@ export function ClaimsFilters({
   const pathname = usePathname()
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  const hasFilters = !!(currentStatus || currentSearch)
+
   function buildUrl(status?: string, search?: string) {
     const params = new URLSearchParams()
     if (status) params.set('status', status)
@@ -42,16 +44,23 @@ export function ClaimsFilters({
 
   return (
     <div className={styles.bar}>
-      <div className={styles.tabs}>
-        {STATUSES.map(status => (
-          <a
-            key={status}
-            href={buildUrl(currentStatus === status ? undefined : status, currentSearch)}
-            className={`${styles.tab} ${styles[status]} ${currentStatus === status ? styles.tabActive : styles.tabInactive}`}
-          >
-            {CLAIM_STATUSES[status]} ({counts[status]})
+      <div className={styles.left}>
+        <div className={styles.tabs}>
+          {STATUSES.map(status => (
+            <a
+              key={status}
+              href={buildUrl(currentStatus === status ? undefined : status, currentSearch)}
+              className={`${styles.tab} ${styles[status]} ${currentStatus === status ? styles.tabActive : styles.tabInactive}`}
+            >
+              {CLAIM_STATUSES[status]} ({counts[status]})
+            </a>
+          ))}
+        </div>
+        {hasFilters && (
+          <a href={pathname} className={styles.clearLink}>
+            × Limpiar filtros
           </a>
-        ))}
+        )}
       </div>
       <input
         type="search"
