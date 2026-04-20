@@ -4,14 +4,25 @@ import { getDb } from '@/lib/firebase/admin'
 import { getSessionUser } from '@/lib/firebase/session'
 import { getClaims } from '@/lib/queries/claims'
 import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
+import { ClaimsFilters } from './_components/ClaimsFilters'
+import type { ClaimStatus } from '@/types'
 import styles from './page.module.css'
 
-export default async function ClaimsPage() {
+export default async function ClaimsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string; search?: string }>
+}) {
+  const { status, search } = await searchParams
+
   const session = await getSessionUser()
   if (!session) redirect('/login')
 
   const db = getDb()
-  const claims = await getClaims(db, session.enterpriseId)
+  const claims = await getClaims(db, session.enterpriseId, {
+    status: status as ClaimStatus | undefined,
+    search,
+  })
 
   return (
     <div className={styles.page}>
@@ -20,8 +31,10 @@ export default async function ClaimsPage() {
         <Link href="/claims/new" className={styles.newButton}>+ Nuevo reclamo</Link>
       </div>
 
+      <ClaimsFilters currentStatus={status} currentSearch={search} />
+
       {claims.length === 0 ? (
-        <p className={styles.empty}>No hay reclamos aún.</p>
+        <p className={styles.empty}>No hay reclamos para estos filtros.</p>
       ) : (
         <div className={styles.tableWrapper}>
           <table className={styles.table}>

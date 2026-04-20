@@ -1,15 +1,39 @@
 import type { Firestore } from 'firebase-admin/firestore'
-import type { Claim } from '@/types'
+import type { Claim, ClaimStatus } from '@/types'
 
-export async function getClaims(db: Firestore, enterpriseId: string): Promise<Claim[]> {
-  const snap = await db
+interface ClaimsFilter {
+  status?: ClaimStatus
+  search?: string
+}
+
+export async function getClaims(
+  db: Firestore,
+  enterpriseId: string,
+  filter?: ClaimsFilter
+): Promise<Claim[]> {
+  let query = db
     .collection('enterprises')
     .doc(enterpriseId)
     .collection('claims')
-    .orderBy('createdAt', 'desc')
-    .get()
+    .orderBy('createdAt', 'desc') as FirebaseFirestore.Query
 
-  return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Claim)
+  if (filter?.status) {
+    query = query.where('status', '==', filter.status)
+  }
+
+  const snap = await query.get()
+  let claims = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Claim)
+
+  if (filter?.search) {
+    const term = filter.search.toLowerCase()
+    claims = claims.filter(c =>
+      c.customerName.toLowerCase().includes(term) ||
+      c.ticketNumber.toLowerCase().includes(term) ||
+      c.customerEmail.toLowerCase().includes(term)
+    )
+  }
+
+  return claims
 }
 
 export async function getClaim(
