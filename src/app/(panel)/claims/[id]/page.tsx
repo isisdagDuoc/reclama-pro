@@ -17,13 +17,13 @@ const STATUS_TRANSITIONS: Record<ClaimStatus, ClaimStatus[]> = {
   closed:      [],
 }
 
-const ACTION_LABELS: Record<ClaimStatus, string> = {
+const ACTION_LABELS: Partial<Record<ClaimStatus, string>> = {
   in_progress: '▶ Iniciar proceso',
   resolved:    '✓ Marcar como resuelto',
   closed:      '✕ Cerrar',
 }
 
-const ACTION_STYLE: Record<ClaimStatus, string> = {
+const ACTION_STYLE: Partial<Record<ClaimStatus, string>> = {
   in_progress: 'actionBlue',
   resolved:    'actionGreen',
   closed:      'actionRed',
@@ -130,7 +130,7 @@ export default async function ClaimPage({
                       <form key={next} action={action}>
                         <button
                           type="submit"
-                          className={`${styles.actionBtn} ${styles[ACTION_STYLE[next]]}`}
+                          className={`${styles.actionBtn} ${styles[ACTION_STYLE[next] ?? '']}`}
                         >
                           {ACTION_LABELS[next]}
                         </button>
