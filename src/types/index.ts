@@ -45,5 +45,7 @@ export interface HistoryEntry {
   id: string;
   action: string;
   authorId: string;
+  authorName?: string;
+  authorRole?: 'client' | 'agent';
   timestamp: Timestamp;
 }

@@ -1,0 +1,83 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.clearLink {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.clearLink:hover {
+  color: var(--color-text);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  border: 1.5px solid transparent;
+}
+
+.tabInactive {
+  opacity: 0.55;
+}
+
+.tabInactive:hover {
+  opacity: 0.85;
+}
+
+.tabActive {
+  opacity: 1;
+}
+
+/* Status colors — siempre activos con sus colores */
+.open        { background-color: #dbeafe; color: #1e40af; }
+.in_progress { background-color: #fef3c7; color: #92400e; }
+.resolved    { background-color: #d1fae5; color: #065f46; }
+.closed      { background-color: #fee2e2; color: #991b1b; }
+
+/* Active: agrega borde del mismo color */
+.tabActive.open        { border-color: #1e40af; }
+.tabActive.in_progress { border-color: #92400e; }
+.tabActive.resolved    { border-color: #065f46; }
+.tabActive.closed      { border-color: #991b1b; }
+
+.search {
+  padding: 7px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background-color: var(--color-card);
+  font-family: inherit;
+  width: 200px;
+  transition: border-color 0.15s;
+}
+
+.search:focus {
+  outline: none;
+  border-color: #1d4ed8;
+}

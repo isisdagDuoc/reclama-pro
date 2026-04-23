@@ -1,0 +1,241 @@
+.page {
+  width: 100%;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+}
+
+.breadcrumbLink {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.breadcrumbLink:hover { color: var(--color-text); }
+
+.breadcrumbSep { color: var(--color-text-muted); }
+
+.breadcrumbCurrent { color: var(--color-text); font-weight: 500; }
+
+.successBanner {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 20px;
+  align-items: start;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Claim info card */
+.claimMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.open        { background-color: #dbeafe; color: #1e40af; }
+.in_progress { background-color: #fef3c7; color: #92400e; }
+.resolved    { background-color: #d1fae5; color: #065f46; }
+.closed      { background-color: #fee2e2; color: #991b1b; }
+
+.category {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.subject {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 8px;
+}
+
+.clientDate {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 16px 0;
+}
+
+.description {
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* History card */
+.historyTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 16px;
+}
+
+.historyEmpty {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry {
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.entryClient {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+
+.entryAgent {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.entryAuthor {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.entryText {
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sideCard {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.sideLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 8px;
+}
+
+.sideValue {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 4px;
+}
+
+.sideMuted {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.sideHint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 10px 0 0;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actionBtn {
+  width: 100%;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  background-color: transparent;
+  transition: background-color 0.15s;
+}
+
+.actionBlue  { background-color: #f0fdf4; border: 1.5px solid #065f46; color: #065f46; }
+.actionBlue:hover  { background-color: #d1fae5; }
+
+.actionGreen { background-color: #f0fdf4; border: 1.5px solid #065f46; color: #065f46; }
+.actionGreen:hover { background-color: #d1fae5; }
+
+.actionRed   { background-color: #fff1f2; border: 1.5px solid #991b1b; color: #991b1b; }
+.actionRed:hover   { background-color: #fee2e2; }
+
+/* Link card */
+.linkCard {
+  background-color: #d1fae5;
+  border: 1px solid #6ee7b7;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.linkUrl {
+  font-size: 0.8125rem;
+  color: #065f46;
+  word-break: break-all;
+  margin: 0;
+  opacity: 0.8;
+}
