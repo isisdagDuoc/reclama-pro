@@ -20,7 +20,12 @@ const STATUS_TRANSITIONS: Record<ClaimStatus, ClaimStatus[]> = {
 const ACTION_LABELS: Partial<Record<ClaimStatus, string>> = {
   in_progress: '▶ Iniciar proceso',
   resolved:    '✓ Marcar como resuelto',
-  closed:      '✕ Cerrar',
+  closed:      '✕ Cerrar sin resolver',
+}
+
+function getActionLabel(currentStatus: ClaimStatus, nextStatus: ClaimStatus): string {
+  if (nextStatus === 'closed' && currentStatus === 'resolved') return '✕ Cerrar'
+  return ACTION_LABELS[nextStatus] ?? nextStatus
 }
 
 const ACTION_STYLE: Partial<Record<ClaimStatus, string>> = {
@@ -132,7 +137,7 @@ export default async function ClaimPage({
                           type="submit"
                           className={`${styles.actionBtn} ${styles[ACTION_STYLE[next] ?? '']}`}
                         >
-                          {ACTION_LABELS[next]}
+                          {getActionLabel(claim.status, next)}
                         </button>
                       </form>
                     )

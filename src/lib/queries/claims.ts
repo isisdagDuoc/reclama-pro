@@ -102,3 +102,30 @@ export async function getEnterprise(
   if (!snap.exists) return null
   return { id: snap.id, ...snap.data() } as Enterprise
 }
+
+export async function getEnterpriseBySlug(
+  db: Firestore,
+  slug: string
+): Promise<Enterprise | null> {
+  const snap = await db.collection('enterprises').where('slug', '==', slug).limit(1).get()
+  if (snap.empty) return null
+  const doc = snap.docs[0]
+  return { id: doc.id, ...doc.data() } as Enterprise
+}
+
+export async function getClaimByToken(
+  db: Firestore,
+  enterpriseId: string,
+  accessToken: string
+): Promise<Claim | null> {
+  const snap = await db
+    .collection('enterprises')
+    .doc(enterpriseId)
+    .collection('claims')
+    .where('accessToken', '==', accessToken)
+    .limit(1)
+    .get()
+  if (snap.empty) return null
+  const doc = snap.docs[0]
+  return { id: doc.id, ...doc.data() } as Claim
+}

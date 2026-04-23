@@ -108,19 +108,35 @@ export async function addReply(
   const userSnap = await db.collection('enterpriseUsers').doc(uid).get()
   const authorName = (userSnap.data()?.name as string) ?? 'Agente'
 
-  await db
+  const claimRef = db
     .collection('enterprises')
     .doc(enterpriseId)
     .collection('claims')
     .doc(claimId)
-    .collection('history')
-    .add({
-      action: message,
-      authorId: uid,
-      authorName,
-      authorRole: 'agent',
-      timestamp: FieldValue.serverTimestamp(),
-    })
 
-  redirect(`/claims/${claimId}`)
+  const claimSnap = await claimRef.get()
+  const currentStatus = claimSnap.data()?.status
+
+  try {
+    await db.runTransaction(async (tx) => {
+      if (currentStatus === 'open') {
+        tx.update(claimRef, {
+          status: 'in_progress',
+          updatedAt: FieldValue.serverTimestamp(),
+        })
+      }
+      tx.set(claimRef.collection('history').doc(), {
+        action: message,
+        authorId: uid,
+        authorName,
+        authorRole: 'agent',
+        timestamp: FieldValue.serverTimestamp(),
+      })
+    })
+  } catch {
+    return { error: 'No se pudo enviar la respuesta. Intenta de nuevo.' }
+  }
+
+  const { revalidatePath } = await import('next/cache')
+  revalidatePath(`/claims/${claimId}`)
 }
