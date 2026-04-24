@@ -1,7 +1,7 @@
 import { type NextRequest } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { getDb } from '@/lib/firebase/admin'
-import { getSessionUser } from '@/lib/firebase/session'
+import { getSessionUserOrNull } from '@/lib/auth/session'
 import { getReportData, parsePeriod } from '@/lib/queries/reports'
 import { ReportDocument } from '@/components/pdf/ReportDocument'
 
@@ -9,7 +9,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
-  const session = await getSessionUser()
+  const session = await getSessionUserOrNull()
   if (!session) {
     return new Response('Unauthorized', { status: 401 })
   }

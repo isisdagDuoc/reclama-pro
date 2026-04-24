@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getAuth } from 'firebase-admin/auth'
@@ -10,7 +11,7 @@ export interface SessionUser {
   role: 'admin' | 'agent'
 }
 
-export async function getSessionUser(): Promise<SessionUser> {
+async function _getSessionUser(): Promise<SessionUser> {
   const cookieStore = await cookies()
   const sessionCookie = cookieStore.get('session')?.value
   if (!sessionCookie) redirect('/login')
@@ -28,3 +29,25 @@ export async function getSessionUser(): Promise<SessionUser> {
     redirect('/login')
   }
 }
+
+async function _getSessionUserOrNull(): Promise<SessionUser | null> {
+  const cookieStore = await cookies()
+  const sessionCookie = cookieStore.get('session')?.value
+  if (!sessionCookie) return null
+
+  try {
+    const auth = getAuth(getFirebaseAdmin())
+    const decoded = await auth.verifySessionCookie(sessionCookie, true)
+    return {
+      uid: decoded.uid,
+      email: decoded.email ?? '',
+      enterpriseId: decoded['enterpriseId'] as string,
+      role: decoded['role'] as 'admin' | 'agent',
+    }
+  } catch {
+    return null
+  }
+}
+
+export const getSessionUser = cache(_getSessionUser)
+export const getSessionUserOrNull = cache(_getSessionUserOrNull)

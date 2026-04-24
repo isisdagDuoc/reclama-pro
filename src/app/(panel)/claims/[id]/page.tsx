@@ -1,12 +1,13 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getDb } from '@/lib/firebase/admin'
-import { getSessionUser } from '@/lib/firebase/session'
+import { getSessionUser } from '@/lib/auth/session'
 import { getClaim, getClaimHistory, getEnterprise } from '@/lib/queries/claims'
 import { updateClaimStatus } from '@/lib/actions/claims'
 import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
 import { ReplyForm } from './_components/ReplyForm'
 import { CopyLinkButton } from './_components/CopyLinkButton'
+import { DeleteClaimButton } from './_components/DeleteClaimButton'
 import type { ClaimStatus } from '@/types'
 import styles from './page.module.css'
 
@@ -45,8 +46,6 @@ export default async function ClaimPage({
   const { created } = await searchParams
 
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const db = getDb()
   const [claim, history, enterprise] = await Promise.all([
     getClaim(db, session.enterpriseId, id),
@@ -170,6 +169,13 @@ export default async function ClaimPage({
             <p className={styles.linkUrl}>{clientUrl}</p>
             <CopyLinkButton url={clientUrl} />
           </div>
+
+          {/* Eliminar — solo admin */}
+          {session.role === 'admin' && (
+            <div className={styles.sideCard}>
+              <DeleteClaimButton claimId={claim.id} />
+            </div>
+          )}
         </aside>
       </div>
     </div>

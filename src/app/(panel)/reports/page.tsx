@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation'
 import { getDb } from '@/lib/firebase/admin'
-import { getSessionUser } from '@/lib/firebase/session'
+import { getSessionUser } from '@/lib/auth/session'
 import { getReportData, parsePeriod } from '@/lib/queries/reports'
 import { StatCards } from './_components/StatCards'
 import { StatusDistribution } from './_components/StatusDistribution'
@@ -18,8 +17,6 @@ export default async function ReportsPage({
   const { period: periodRaw } = await searchParams
 
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const period = parsePeriod(periodRaw)
   const db = getDb()
   const data = await getReportData(db, session.enterpriseId, period)
