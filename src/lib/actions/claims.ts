@@ -3,9 +3,24 @@
 import { redirect } from 'next/navigation'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { getFirebaseAdmin } from '@/lib/firebase/admin'
-import { getSessionUser } from '@/lib/firebase/session'
+import { getSessionUser } from '@/lib/auth/session'
 import { CLAIM_STATUSES } from '@/constants'
 import type { ClaimCategory, ClaimStatus } from '@/types'
+
+export async function deleteClaim(claimId: string): Promise<void> {
+  const session = await getSessionUser()
+  if (session.role !== 'admin') return
+
+  const db = getFirestore(getFirebaseAdmin())
+  const claimRef = db
+    .collection('enterprises')
+    .doc(session.enterpriseId)
+    .collection('claims')
+    .doc(claimId)
+
+  await db.recursiveDelete(claimRef)
+  redirect('/claims')
+}
 
 interface CreateClaimInput {
   customerName: string
@@ -19,8 +34,6 @@ export async function createClaim(
   input: CreateClaimInput
 ): Promise<{ error: string }> {
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const { enterpriseId } = session
   const db = getFirestore(getFirebaseAdmin())
   const enterpriseRef = db.collection('enterprises').doc(enterpriseId)
@@ -64,8 +77,6 @@ export async function updateClaimStatus(
   newStatus: ClaimStatus
 ): Promise<void> {
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const { enterpriseId, uid } = session
   const db = getFirestore(getFirebaseAdmin())
 
@@ -100,8 +111,6 @@ export async function addReply(
   message: string
 ): Promise<{ error: string } | void> {
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const { enterpriseId, uid } = session
   const db = getFirestore(getFirebaseAdmin())
 

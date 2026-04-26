@@ -1,0 +1,54 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.tile {
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+
+.count {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin: 0 0 2px;
+}
+
+.pct {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+/* Estado: Abierto */
+.open              { background-color: #dbeafe; }
+.open .label       { color: #1e40af; }
+.open .count       { color: #1e40af; }
+.open .pct         { color: #3b82f6; }
+
+/* Estado: En proceso */
+.inProgress        { background-color: #fef3c7; }
+.inProgress .label { color: #92400e; }
+.inProgress .count { color: #92400e; }
+.inProgress .pct   { color: #d97706; }
+
+/* Estado: Resuelto */
+.resolved          { background-color: #d1fae5; }
+.resolved .label   { color: #065f46; }
+.resolved .count   { color: #065f46; }
+.resolved .pct     { color: #10b981; }
+
+/* Estado: Cerrado */
+.closed            { background-color: #fee2e2; }
+.closed .label     { color: #991b1b; }
+.closed .count     { color: #991b1b; }
+.closed .pct       { color: #ef4444; }

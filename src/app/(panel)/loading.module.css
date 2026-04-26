@@ -1,0 +1,27 @@
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.bar {
+  height: 20px;
+  width: 40%;
+  background-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.cardSkeleton {
+  height: 280px;
+  width: 100%;
+  background-color: var(--color-border);
+  border-radius: 8px;
+  margin-top: 8px;
+}

@@ -1,0 +1,67 @@
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.page {
+  max-width: 1100px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.titleBar {
+  height: 22px;
+  width: 140px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.subtitleBar {
+  height: 14px;
+  width: 160px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.buttonSkeleton {
+  height: 36px;
+  width: 130px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.tableWrapper {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tab {
+  height: 30px;
+  width: 90px;
+  background-color: var(--color-surface);
+  border-radius: 9999px;
+}
+
+.tableRow {
+  height: 48px;
+  background-color: var(--color-surface);
+  border-radius: 6px;
+}

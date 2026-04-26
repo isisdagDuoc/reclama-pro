@@ -1,0 +1,92 @@
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.page {
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titleBar {
+  height: 22px;
+  width: 140px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.selectorSkeleton {
+  height: 36px;
+  width: 120px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.buttonSkeleton {
+  height: 36px;
+  width: 110px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  height: 100px;
+  background-color: var(--color-border);
+  border-radius: 8px;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chartCard {
+  height: 200px;
+  background-color: var(--color-border);
+  border-radius: 8px;
+}
+
+.tableCard {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tableHeader {
+  height: 18px;
+  width: 200px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.tableRow {
+  height: 44px;
+  background-color: var(--color-surface);
+  border-radius: 6px;
+}

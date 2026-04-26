@@ -1,12 +1,14 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getDb } from '@/lib/firebase/admin'
-import { getSessionUser } from '@/lib/firebase/session'
+import { getSessionUser } from '@/lib/auth/session'
 import { getClaim, getClaimHistory, getEnterprise } from '@/lib/queries/claims'
 import { updateClaimStatus } from '@/lib/actions/claims'
 import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
 import { ReplyForm } from './_components/ReplyForm'
 import { CopyLinkButton } from './_components/CopyLinkButton'
+import { DeleteClaimButton } from './_components/DeleteClaimButton'
+import { StatusSubmitButton } from './_components/StatusSubmitButton'
 import type { ClaimStatus } from '@/types'
 import styles from './page.module.css'
 
@@ -17,15 +19,18 @@ const STATUS_TRANSITIONS: Record<ClaimStatus, ClaimStatus[]> = {
   closed:      [],
 }
 
-const ACTION_LABELS: Record<ClaimStatus, string> = {
-  open:        '',
+const ACTION_LABELS: Partial<Record<ClaimStatus, string>> = {
   in_progress: '▶ Iniciar proceso',
   resolved:    '✓ Marcar como resuelto',
   closed:      '✕ Cerrar sin resolver',
 }
 
-const ACTION_STYLE: Record<ClaimStatus, string> = {
-  open:        '',
+function getActionLabel(currentStatus: ClaimStatus, nextStatus: ClaimStatus): string {
+  if (nextStatus === 'closed' && currentStatus === 'resolved') return '✕ Cerrar'
+  return ACTION_LABELS[nextStatus] ?? nextStatus
+}
+
+const ACTION_STYLE: Partial<Record<ClaimStatus, string>> = {
   in_progress: 'actionBlue',
   resolved:    'actionGreen',
   closed:      'actionRed',
@@ -42,8 +47,6 @@ export default async function ClaimPage({
   const { created } = await searchParams
 
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const db = getDb()
   const [claim, history, enterprise] = await Promise.all([
     getClaim(db, session.enterpriseId, id),
@@ -52,6 +55,7 @@ export default async function ClaimPage({
   ])
   if (!claim) notFound()
 
+  const nextStatuses = STATUS_TRANSITIONS[claim.status]
   const clientUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${enterprise?.slug}?token=${claim.accessToken}`
 
   return (
@@ -121,17 +125,19 @@ export default async function ClaimPage({
               {CLAIM_STATUSES[claim.status]}
             </span>
 
-            {STATUS_TRANSITIONS[claim.status].length > 0 && (
+            {nextStatuses.length > 0 && (
               <>
                 <p className={styles.sideLabel} style={{ marginTop: 16 }}>CAMBIAR A</p>
                 <div className={styles.actionButtons}>
-                  {STATUS_TRANSITIONS[claim.status].map(next => {
+                  {nextStatuses.map(next => {
                     const action = updateClaimStatus.bind(null, claim.id, next)
                     return (
                       <form key={next} action={action}>
-                        <button type="submit" className={`${styles.actionBtn} ${styles[ACTION_STYLE[next]]}`}>
-                          {ACTION_LABELS[next]}
-                        </button>
+                        <StatusSubmitButton
+                          className={`${styles.actionBtn} ${styles[ACTION_STYLE[next] ?? '']}`}
+                        >
+                          {getActionLabel(claim.status, next)}
+                        </StatusSubmitButton>
                       </form>
                     )
                   })}
@@ -163,6 +169,13 @@ export default async function ClaimPage({
             <p className={styles.linkUrl}>{clientUrl}</p>
             <CopyLinkButton url={clientUrl} />
           </div>
+
+          {/* Eliminar — solo admin */}
+          {session.role === 'admin' && (
+            <div className={styles.sideCard}>
+              <DeleteClaimButton claimId={claim.id} />
+            </div>
+          )}
         </aside>
       </div>
     </div>

@@ -1,7 +1,6 @@
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getDb } from '@/lib/firebase/admin'
-import { getSessionUser } from '@/lib/firebase/session'
+import { getSessionUser } from '@/lib/auth/session'
 import { getClaims, getClaimCounts } from '@/lib/queries/claims'
 import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
 import { ClaimsFilters } from './_components/ClaimsFilters'
@@ -16,8 +15,6 @@ export default async function ClaimsPage({
   const { status, search } = await searchParams
 
   const session = await getSessionUser()
-  if (!session) redirect('/login')
-
   const db = getDb()
   const [claims, counts] = await Promise.all([
     getClaims(db, session.enterpriseId, {

@@ -1,0 +1,75 @@
+.deleteBtn {
+  width: 100%;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  background-color: transparent;
+  border: 1.5px solid #991b1b;
+  color: #991b1b;
+  transition: background-color 0.15s;
+}
+
+.deleteBtn:hover {
+  background-color: #fee2e2;
+}
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.confirmText {
+  font-size: 0.8125rem;
+  color: #991b1b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 8px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: background-color 0.15s;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background-color: var(--color-surface);
+}
+
+.confirmDeleteBtn {
+  flex: 1;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #991b1b;
+  border: none;
+  color: #fff;
+  transition: background-color 0.15s;
+}
+
+.confirmDeleteBtn:hover:not(:disabled) {
+  background-color: #7f1d1d;
+}
+
+.cancelBtn:disabled,
+.confirmDeleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
