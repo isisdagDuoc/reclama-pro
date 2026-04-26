@@ -14,7 +14,7 @@ function mapFirebaseError(code: string): string {
     case 'auth/network-request-failed':
       return 'Error de conexión. Verifica tu internet e intenta de nuevo.'
     default:
-      return 'Correo o contraseña incorrectos.'
+      return 'Correo o contraseña incorrecto'
   }
 }
 
