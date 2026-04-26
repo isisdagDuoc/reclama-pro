@@ -8,6 +8,7 @@ import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
 import { ReplyForm } from './_components/ReplyForm'
 import { CopyLinkButton } from './_components/CopyLinkButton'
 import { DeleteClaimButton } from './_components/DeleteClaimButton'
+import { StatusSubmitButton } from './_components/StatusSubmitButton'
 import type { ClaimStatus } from '@/types'
 import styles from './page.module.css'
 
@@ -132,12 +133,11 @@ export default async function ClaimPage({
                     const action = updateClaimStatus.bind(null, claim.id, next)
                     return (
                       <form key={next} action={action}>
-                        <button
-                          type="submit"
+                        <StatusSubmitButton
                           className={`${styles.actionBtn} ${styles[ACTION_STYLE[next] ?? '']}`}
                         >
                           {getActionLabel(claim.status, next)}
-                        </button>
+                        </StatusSubmitButton>
                       </form>
                     )
                   })}
