@@ -53,6 +53,7 @@ export default function LoginPage() {
       }
       // Si no hay error, el Server Action redirigió a /dashboard
     } catch (err: unknown) {
+      if ((err as { digest?: string })?.digest?.startsWith('NEXT_REDIRECT')) return
       const code = (err as { code?: string })?.code ?? ''
       setError(mapFirebaseError(code))
     } finally {
@@ -110,7 +111,12 @@ export default function LoginPage() {
           className={styles.button}
           disabled={loading}
         >
-          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+          {loading ? (
+            <>
+              <span className={styles.spinner} />
+              Iniciando sesión...
+            </>
+          ) : 'Iniciar sesión'}
         </button>
 
         <p className={styles.registerPrompt}>
