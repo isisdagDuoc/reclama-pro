@@ -52,11 +52,13 @@ export function Sidebar({ email, role }: SidebarProps) {
             <span className={styles.userRole}>{CLAIM_ROLES[role]}</span>
           </div>
         </div>
-        <form action={logout}>
-          <button type="submit" className={styles.logoutButton}>
-            Cerrar sesión
-          </button>
-        </form>
+        <button
+          type="button"
+          className={styles.logoutButton}
+          onClick={() => logout()}
+        >
+          Cerrar sesión
+        </button>
       </div>
     </aside>
   )
