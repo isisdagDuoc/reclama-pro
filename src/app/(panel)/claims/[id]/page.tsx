@@ -9,6 +9,8 @@ import { ReplyForm } from './_components/ReplyForm'
 import { CopyLinkButton } from './_components/CopyLinkButton'
 import { DeleteClaimButton } from './_components/DeleteClaimButton'
 import { StatusSubmitButton } from './_components/StatusSubmitButton'
+import { getAppUrl } from '@/lib/utils/url'
+import { AutoRefresh } from '@/components/ui/AutoRefresh'
 import type { ClaimStatus } from '@/types'
 import styles from './page.module.css'
 
@@ -56,10 +58,11 @@ export default async function ClaimPage({
   if (!claim) notFound()
 
   const nextStatuses = STATUS_TRANSITIONS[claim.status]
-  const clientUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${enterprise?.slug}?token=${claim.accessToken}`
+  const clientUrl = `${getAppUrl()}/${enterprise?.slug}?token=${claim.accessToken}`
 
   return (
     <div className={styles.page}>
+      <AutoRefresh />
       <nav className={styles.breadcrumb}>
         <Link href="/claims" className={styles.breadcrumbLink}>← Reclamos</Link>
         <span className={styles.breadcrumbSep}>/</span>

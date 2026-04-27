@@ -148,4 +148,5 @@ export async function addReply(
 
   const { revalidatePath } = await import('next/cache')
   revalidatePath(`/claims/${claimId}`)
+  revalidatePath('/[slug]', 'page')
 }

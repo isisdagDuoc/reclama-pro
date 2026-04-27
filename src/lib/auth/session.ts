@@ -19,10 +19,12 @@ async function _getSessionUser(): Promise<SessionUser> {
   try {
     const auth = getAuth(getFirebaseAdmin())
     const decoded = await auth.verifySessionCookie(sessionCookie, true)
+    const enterpriseId = decoded['enterpriseId'] as string | undefined
+    if (!enterpriseId) redirect('/login')
     return {
       uid: decoded.uid,
       email: decoded.email ?? '',
-      enterpriseId: decoded['enterpriseId'] as string,
+      enterpriseId,
       role: decoded['role'] as 'admin' | 'agent',
     }
   } catch {
