@@ -36,6 +36,7 @@ export async function addClientComment(
   }
 
   revalidatePath(`/${slug}`)
+  revalidatePath(`/claims/${claimId}`)
 }
 
 export async function submitRating(

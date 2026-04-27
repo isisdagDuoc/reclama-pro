@@ -36,9 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 # vscode
-.claude
 .git
 
-# planes y solicitudes locales
-.plans/
 

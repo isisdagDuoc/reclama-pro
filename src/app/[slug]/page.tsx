@@ -8,6 +8,7 @@ import {
 import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
 import { ClientReplyForm } from './_components/ClientReplyForm'
 import { RatingForm } from './_components/RatingForm'
+import { AutoRefresh } from '@/components/ui/AutoRefresh'
 import styles from './page.module.css'
 
 export default async function PortalPage({
@@ -37,6 +38,7 @@ export default async function PortalPage({
 
   return (
     <>
+      <AutoRefresh />
       <nav className={styles.nav}>
         <span className={styles.navTitle}>{enterprise.name}</span>
         <span className={styles.navDot}>·</span>
