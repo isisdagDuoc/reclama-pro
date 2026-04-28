@@ -1,19 +1,19 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: var(--gap-card);
 }
 
 .card {
   background-color: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: 16px 18px;
+  padding: 1rem 1.125rem;
 }
 
 .label {
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-size: var(--font-label);
+  font-weight: var(--font-th-weight);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #94a3b8;
@@ -21,7 +21,7 @@
 }
 
 .value {
-  font-size: 1.875rem;
+  font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.04em;
   color: #1d4ed8;
@@ -33,7 +33,7 @@
 }
 
 .sub {
-  font-size: 0.6875rem;
+  font-size: var(--font-label);
   color: #94a3b8;
   margin: 0;
 }

@@ -1,4 +1,5 @@
 .root {
+  /* Colors */
   --color-sidebar: #1d4ed8;
   --color-cta: #059669;
   --color-text: #0f172a;
@@ -9,6 +10,22 @@
   --color-nav-text: rgba(255, 255, 255, 0.65);
   --color-nav-active: rgba(255, 255, 255, 0.15);
   --color-nav-active-text: #ffffff;
+
+  /* Typography — dense tool scale */
+  --font-page-title: 1.1rem;
+  --font-page-title-weight: 700;
+  --font-page-subtitle: 0.72rem;
+  --font-th: 0.62rem;
+  --font-th-weight: 700;
+  --font-td: 0.8rem;
+  --font-badge: 0.65rem;
+  --font-label: 0.62rem;
+
+  /* Spacing */
+  --padding-th: 0.5rem 1.125rem;
+  --padding-td: 0.65rem 1.125rem;
+  --gap-page: 1.125rem;
+  --gap-card: 0.75rem;
 
   display: flex;
   min-height: 100vh;

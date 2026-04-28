@@ -1,24 +1,27 @@
 .page {
-  max-width: 900px;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-page);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: var(--font-page-title);
+  font-weight: var(--font-page-title-weight);
   color: var(--color-text);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .cancelLink {
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size: var(--font-page-subtitle);
   text-decoration: none;
 }
 
@@ -82,8 +85,8 @@
 }
 
 .textarea {
-  resize: vertical;
-  min-height: 120px;
+  resize: none;
+  height: 120px;
 }
 
 .error {

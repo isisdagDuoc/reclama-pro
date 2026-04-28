@@ -1,8 +1,8 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-width: 1100px;
+  gap: var(--gap-page);
+  max-width: 1400px;
 }
 
 .header {
@@ -14,17 +14,18 @@
 }
 
 .title {
-  font-size: 1.375rem;
-  font-weight: 700;
+  font-size: var(--font-page-title);
+  font-weight: var(--font-page-title-weight);
   color: var(--color-text);
-  margin: 0 0 2px;
+  margin: 0;
   letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-size: 0.875rem;
+  font-size: var(--font-page-subtitle);
   color: var(--color-text-muted);
-  margin: 0;
+  margin-top: 3px;
+  margin-bottom: 0;
 }
 
 .controls {
@@ -45,19 +46,19 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 0.7rem 1.125rem;
   border-bottom: 1px solid var(--color-border);
 }
 
 .cardTitle {
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--color-text);
   margin: 0;
 }
 
 .cardSub {
-  font-size: 0.75rem;
+  font-size: var(--font-page-subtitle);
   color: var(--color-text-muted);
   margin: 0;
 }

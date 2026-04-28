@@ -1,0 +1,75 @@
+.timeline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 0 4px;
+  gap: 0;
+}
+
+.stepWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 100px;
+}
+
+.stepRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.dotCurrent {
+  width: 14px;
+  height: 14px;
+  background-color: #1d4ed8;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.dotPast {
+  background-color: #bfdbfe;
+}
+
+.dotFuture {
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+}
+
+.connector {
+  flex: 1;
+  height: 2px;
+  background-color: #e2e8f0;
+}
+
+.connectorActive {
+  background-color: #bfdbfe;
+}
+
+.label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.labelCurrent {
+  color: #1d4ed8;
+}
+
+.labelPast {
+  color: #93c5fd;
+}
+
+.labelFuture {
+  color: #cbd5e1;
+}
