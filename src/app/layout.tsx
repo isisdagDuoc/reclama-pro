@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
+import { getAppUrl } from '@/lib/utils/url'
 import './globals.css'
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL
-  ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-
 export const metadata: Metadata = {
-  metadataBase: new URL(appUrl),
+  metadataBase: new URL(getAppUrl()),
   title: 'Reclama Pro — Gestión de reclamos para Pymes',
   description: 'Centraliza y resuelve los reclamos de tus clientes desde un solo lugar. Sin planillas, sin correos perdidos.',
   openGraph: {
