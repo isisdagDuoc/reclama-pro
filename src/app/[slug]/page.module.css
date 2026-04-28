@@ -34,43 +34,48 @@
   padding: 32px;
 }
 
+.subject {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
 .claimMeta {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .badge {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 9999px;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .open        { background-color: #dbeafe; color: #1e40af; }
 .in_progress { background-color: #fef3c7; color: #92400e; }
 .resolved    { background-color: #d1fae5; color: #065f46; }
-.closed      { background-color: #fee2e2; color: #991b1b; }
+.closed      { background-color: #f1f5f9; color: #475569; }
 
-.category {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
+.metaSep {
+  color: #cbd5e1;
+  font-size: 0.75rem;
 }
 
-.subject {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0 0 6px;
+.category {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
 }
 
 .clientDate {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
-  margin: 0;
 }
 
 .divider {

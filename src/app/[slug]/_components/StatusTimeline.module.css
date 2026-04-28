@@ -1,43 +1,67 @@
-.timeline {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 20px 0 4px;
-  gap: 0;
+.wrapper {
+  padding: 4px 0 0;
 }
 
-.stepWrapper {
+/* ── Stepper row ───────────────────────────────────── */
+.stepper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  flex: 1;
-  max-width: 100px;
+  gap: 10px;
+  position: relative;
 }
 
-.stepRow {
-  display: flex;
-  align-items: center;
-  width: 100%;
+/* Connecting lines via ::before (left half) and ::after (right half) */
+.step::before,
+.step::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 50%;
+  height: 2px;
 }
 
+.step::before { left: 0; }
+.step::after  { right: 0; }
+
+.step:first-child::before { display: none; }
+.step:last-child::after   { display: none; }
+
+/* Past step: both halves solid blue */
+.stepPast::before,
+.stepPast::after  { background-color: #1d4ed8; }
+
+/* Current step: left half blue (connected from past), right half gray */
+.stepCurrent::before { background-color: #1d4ed8; }
+.stepCurrent::after  { background-color: #e2e8f0; }
+
+/* Future step: both halves gray */
+.stepFuture::before,
+.stepFuture::after  { background-color: #e2e8f0; }
+
+/* ── Dots ──────────────────────────────────────────── */
 .dot {
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   border-radius: 9999px;
-  flex-shrink: 0;
+  position: relative;
   z-index: 1;
-}
-
-.dotCurrent {
-  width: 14px;
-  height: 14px;
-  background-color: #1d4ed8;
-  box-shadow: 0 0 0 3px #dbeafe;
+  flex-shrink: 0;
 }
 
 .dotPast {
-  background-color: #bfdbfe;
+  background-color: #1d4ed8;
+}
+
+.dotCurrent {
+  background-color: #ffffff;
+  border: 3px solid #1d4ed8;
+  box-shadow: 0 0 0 3px #dbeafe;
 }
 
 .dotFuture {
@@ -45,16 +69,7 @@
   border: 2px solid #cbd5e1;
 }
 
-.connector {
-  flex: 1;
-  height: 2px;
-  background-color: #e2e8f0;
-}
-
-.connectorActive {
-  background-color: #bfdbfe;
-}
-
+/* ── Labels ────────────────────────────────────────── */
 .label {
   font-size: 0.6875rem;
   font-weight: 600;
@@ -62,14 +77,15 @@
   white-space: nowrap;
 }
 
-.labelCurrent {
-  color: #1d4ed8;
-}
+.labelPast    { color: #1d4ed8; }
+.labelCurrent { color: #1d4ed8; }
+.labelFuture  { color: #94a3b8; }
 
-.labelPast {
-  color: #93c5fd;
-}
-
-.labelFuture {
-  color: #cbd5e1;
+/* ── State description ─────────────────────────────── */
+.description {
+  margin: 14px 0 0;
+  font-size: 0.8125rem;
+  color: #475569;
+  text-align: center;
+  line-height: 1.5;
 }

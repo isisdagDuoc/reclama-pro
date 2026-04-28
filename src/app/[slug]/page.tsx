@@ -48,30 +48,31 @@ export default async function PortalPage({
 
       <div className={styles.content}>
         <div className={styles.card}>
-          <StatusTimeline current={claim.status} />
-
-          <hr className={styles.divider} />
+          <h1 className={styles.subject}>{claim.subject}</h1>
 
           <div className={styles.claimMeta}>
             <span className={`${styles.badge} ${styles[claim.status]}`}>
               {CLAIM_STATUSES[claim.status]}
             </span>
+            <span className={styles.metaSep}>·</span>
             <span className={styles.category}>
               {CLAIM_CATEGORIES[claim.category]}
             </span>
+            <span className={styles.metaSep}>·</span>
+            <span className={styles.clientDate}>
+              {claim.createdAt
+                .toDate()
+                .toLocaleDateString('es-CL', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+            </span>
           </div>
 
-          <h1 className={styles.subject}>{claim.subject}</h1>
-          <p className={styles.clientDate}>
-            Ingresado el{' '}
-            {claim.createdAt
-              .toDate()
-              .toLocaleDateString('es-CL', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-          </p>
+          <hr className={styles.divider} />
+
+          <StatusTimeline current={claim.status} />
 
           <hr className={styles.divider} />
           <p className={styles.description}>{claim.description}</p>
