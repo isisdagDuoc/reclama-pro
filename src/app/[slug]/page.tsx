@@ -8,6 +8,7 @@ import {
 import { CLAIM_STATUSES, CLAIM_CATEGORIES } from '@/constants'
 import { ClientReplyForm } from './_components/ClientReplyForm'
 import { RatingForm } from './_components/RatingForm'
+import { StatusTimeline } from './_components/StatusTimeline'
 import { AutoRefresh } from '@/components/ui/AutoRefresh'
 import styles from './page.module.css'
 
@@ -47,26 +48,31 @@ export default async function PortalPage({
 
       <div className={styles.content}>
         <div className={styles.card}>
+          <h1 className={styles.subject}>{claim.subject}</h1>
+
           <div className={styles.claimMeta}>
             <span className={`${styles.badge} ${styles[claim.status]}`}>
               {CLAIM_STATUSES[claim.status]}
             </span>
+            <span className={styles.metaSep}>·</span>
             <span className={styles.category}>
               {CLAIM_CATEGORIES[claim.category]}
             </span>
+            <span className={styles.metaSep}>·</span>
+            <span className={styles.clientDate}>
+              {claim.createdAt
+                .toDate()
+                .toLocaleDateString('es-CL', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+            </span>
           </div>
 
-          <h1 className={styles.subject}>{claim.subject}</h1>
-          <p className={styles.clientDate}>
-            Ingresado el{' '}
-            {claim.createdAt
-              .toDate()
-              .toLocaleDateString('es-CL', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-          </p>
+          <hr className={styles.divider} />
+
+          <StatusTimeline current={claim.status} />
 
           <hr className={styles.divider} />
           <p className={styles.description}>{claim.description}</p>
@@ -79,21 +85,22 @@ export default async function PortalPage({
                 {history.map(entry => (
                   <div
                     key={entry.id}
-                    className={`${styles.entry} ${
+                    className={`${styles.bubble} ${
                       entry.authorRole === 'agent'
-                        ? styles.entryAgent
-                        : styles.entryClient
+                        ? styles.bubbleAgent
+                        : styles.bubbleClient
                     }`}
                   >
-                    <span className={styles.entryAuthor}>
-                      {entry.authorRole === 'agent' ? 'Soporte' : 'Tú'}{' — '}
+                    <span className={styles.bubbleAuthor}>
+                      {entry.authorRole === 'agent' ? 'Soporte' : 'Tú'}
+                      {' · '}
                       {entry.timestamp
                         .toDate()
                         .toLocaleDateString('es-CL', {
                           day: 'numeric',
                           month: 'short',
                         })}
-                      ,{' '}
+                      {', '}
                       {entry.timestamp
                         .toDate()
                         .toLocaleTimeString('es-CL', {
@@ -101,7 +108,7 @@ export default async function PortalPage({
                           minute: '2-digit',
                         })}
                     </span>
-                    <p className={styles.entryText}>{entry.action}</p>
+                    <p className={styles.bubbleText}>{entry.action}</p>
                   </div>
                 ))}
               </div>

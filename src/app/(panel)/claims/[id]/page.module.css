@@ -1,13 +1,14 @@
 .page {
-  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-page);
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 20px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
 }
 
 .breadcrumbLink {
@@ -24,11 +25,10 @@
 .successBanner {
   background-color: #d1fae5;
   color: #065f46;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 6px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  margin-bottom: 20px;
+  font-size: var(--font-td);
+  font-weight: 600;
 }
 
 .layout {
@@ -79,14 +79,15 @@
 }
 
 .subject {
-  font-size: 1.375rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--color-text);
-  margin: 0 0 8px;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
 }
 
 .clientDate {
-  font-size: 0.875rem;
+  font-size: var(--font-page-subtitle);
   color: var(--color-text-muted);
   margin: 0;
 }
@@ -98,7 +99,7 @@
 }
 
 .description {
-  font-size: 0.9375rem;
+  font-size: var(--font-td);
   color: var(--color-text);
   line-height: 1.6;
   margin: 0;
@@ -107,14 +108,14 @@
 
 /* History card */
 .historyTitle {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--color-text);
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .historyEmpty {
-  font-size: 0.875rem;
+  font-size: var(--font-td);
   color: var(--color-text-muted);
   margin: 0;
 }
@@ -142,13 +143,16 @@
 
 .entryAuthor {
   display: block;
-  font-size: 0.8125rem;
+  font-size: var(--font-th);
   color: var(--color-text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .entryText {
-  font-size: 0.9375rem;
+  font-size: var(--font-td);
   color: var(--color-text);
   margin: 0;
   line-height: 1.5;
@@ -170,45 +174,45 @@
 }
 
 .sideLabel {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-label);
+  font-weight: var(--font-th-weight);
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   margin: 0 0 8px;
 }
 
 .sideValue {
-  font-size: 0.9375rem;
+  font-size: var(--font-td);
   font-weight: 600;
   color: var(--color-text);
-  margin: 0 0 4px;
+  margin: 0 0 3px;
 }
 
 .sideMuted {
-  font-size: 0.875rem;
+  font-size: var(--font-page-subtitle);
   color: var(--color-text-muted);
   margin: 0;
 }
 
 .sideHint {
-  font-size: 0.8125rem;
+  font-size: var(--font-page-subtitle);
   color: var(--color-text-muted);
-  margin: 10px 0 0;
+  margin: 8px 0 0;
 }
 
 .actionButtons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .actionBtn {
   width: 100%;
-  padding: 9px 14px;
+  padding: 8px 12px;
   border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: var(--font-td);
+  font-weight: 600;
   cursor: pointer;
   text-align: left;
   background-color: transparent;
@@ -233,7 +237,7 @@
 }
 
 .linkUrl {
-  font-size: 0.8125rem;
+  font-size: var(--font-page-subtitle);
   color: #065f46;
   word-break: break-all;
   margin: 0;

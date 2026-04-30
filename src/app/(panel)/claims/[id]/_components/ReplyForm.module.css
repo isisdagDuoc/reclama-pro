@@ -21,8 +21,8 @@
   font-family: inherit;
   color: var(--color-text);
   background-color: var(--color-card);
-  resize: vertical;
-  min-height: 100px;
+  resize: none;
+  height: 100px;
   transition: border-color 0.15s;
 }
 

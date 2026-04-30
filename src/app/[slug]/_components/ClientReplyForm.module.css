@@ -21,8 +21,8 @@
   font-family: inherit;
   color: var(--color-text);
   background-color: var(--color-card);
-  resize: vertical;
-  min-height: 100px;
+  resize: none;
+  height: 100px;
   transition: border-color 0.15s;
 }
 
@@ -56,5 +56,5 @@
   transition: background-color 0.15s;
 }
 
-.button:hover:not(:disabled) { background-color: #15803d; }
+.button:hover:not(:disabled) { background-color: #1e40af; }
 .button:disabled { opacity: 0.6; cursor: not-allowed; }
