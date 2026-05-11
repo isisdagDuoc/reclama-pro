@@ -9,6 +9,7 @@ import styles from './Sidebar.module.css'
 interface SidebarProps {
   email: string
   role: 'admin' | 'agent'
+  enterpriseName: string
 }
 
 const navItems = [
@@ -17,19 +18,26 @@ const navItems = [
   { label: 'Reportes', href: '/reports' },
 ]
 
-export function Sidebar({ email, role }: SidebarProps) {
+const adminNavItems = [
+  { label: 'Usuarios', href: '/settings/users' },
+]
+
+export function Sidebar({ email, role, enterpriseName }: SidebarProps) {
   const pathname = usePathname()
   const initials = email.split('@')[0].slice(0, 2).toUpperCase()
+
+  const allNavItems = role === 'admin' ? [...navItems, ...adminNavItems] : navItems
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.top}>
         <div className={styles.brand}>
           <span className={styles.brandName}>Reclama Pro</span>
+          <span className={styles.enterpriseName}>{enterpriseName}</span>
         </div>
 
         <nav className={styles.nav}>
-          {navItems.map((item) => {
+          {allNavItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
               <Link
@@ -52,6 +60,12 @@ export function Sidebar({ email, role }: SidebarProps) {
             <span className={styles.userRole}>{CLAIM_ROLES[role]}</span>
           </div>
         </div>
+        <Link
+          href="/settings/profile"
+          className={`${styles.profileLink} ${pathname.startsWith('/settings/profile') ? styles.profileLinkActive : ''}`}
+        >
+          Mi perfil
+        </Link>
         <button
           type="button"
           className={styles.logoutButton}

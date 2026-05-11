@@ -1,4 +1,4 @@
-import { render, screen, act, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, act, fireEvent } from '@testing-library/react'
 import { CopyLinkButton } from '@/app/(panel)/claims/[id]/_components/CopyLinkButton'
 
 const mockWriteText = jest.fn().mockResolvedValue(undefined)

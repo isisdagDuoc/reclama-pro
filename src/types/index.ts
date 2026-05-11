@@ -24,6 +24,7 @@ export interface EnterpriseUser {
   name: string;
   email: string;
   role: 'admin' | 'agent';
+  enterpriseId: string;
 }
 
 export interface Claim {

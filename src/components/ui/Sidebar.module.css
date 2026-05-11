@@ -18,6 +18,9 @@
 .brand {
   padding: 0 20px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .brandName {
@@ -25,6 +28,16 @@
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.2px;
+}
+
+.enterpriseName {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0;
 }
 
 .nav {
@@ -103,6 +116,27 @@
 .userRole {
   font-size: 0.62rem;
   color: rgba(255, 255, 255, 0.55);
+}
+
+.profileLink {
+  display: block;
+  padding: 8px 12px;
+  background-color: transparent;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.profileLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.profileLinkActive {
+  background-color: var(--color-nav-active);
+  color: var(--color-nav-active-text);
 }
 
 .logoutButton {

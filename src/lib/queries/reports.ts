@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore'
 import type { Firestore } from 'firebase-admin/firestore'
-import type { Claim, ClaimCategory, ClaimStatus } from '@/types'
+import type { Claim, ClaimCategory } from '@/types'
 import { CLAIM_CATEGORIES } from '@/constants'
 
 export type ReportPeriod = 7 | 30 | 90 | 365
