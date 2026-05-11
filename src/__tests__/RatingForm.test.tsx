@@ -29,14 +29,9 @@ describe('RatingForm', () => {
     expect(screen.getByRole('button', { name: /enviar valoración/i })).toBeDisabled()
   })
 
-  it('muestra error si se envía sin seleccionar estrella', async () => {
-    const user = userEvent.setup()
+  it('muestra error si se envía sin seleccionar estrella', () => {
     render(<RatingForm {...defaultProps} />)
-    // Forzamos el submit sin selección usando el atributo disabled=false temporalmente
-    // El componente valida internamente: si selected === 0 muestra error
     const submitBtn = screen.getByRole('button', { name: /enviar valoración/i })
-    // El botón está disabled, lo testeamos vía la lógica interna seleccionando y deseleccionando
-    // En cambio, verificamos que sin selección el botón está disabled como protección
     expect(submitBtn).toBeDisabled()
   })
 
