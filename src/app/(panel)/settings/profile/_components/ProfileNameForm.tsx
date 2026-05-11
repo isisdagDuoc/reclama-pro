@@ -6,10 +6,9 @@ import styles from './ProfileForm.module.css'
 
 interface ProfileNameFormProps {
   currentName: string
-  email: string
 }
 
-export function ProfileNameForm({ currentName, email }: ProfileNameFormProps) {
+export function ProfileNameForm({ currentName }: ProfileNameFormProps) {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState(currentName)
   const [success, setSuccess] = useState(false)
@@ -38,18 +37,6 @@ export function ProfileNameForm({ currentName, email }: ProfileNameFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.field}>
-        <label htmlFor="profileEmail" className={styles.label}>Email</label>
-        <input
-          id="profileEmail"
-          type="email"
-          value={email}
-          disabled
-          className={styles.inputDisabled}
-        />
-        <span className={styles.hint}>El email no se puede modificar.</span>
-      </div>
-
       <div className={styles.field}>
         <label htmlFor="profileName" className={styles.label}>Nombre</label>
         <input

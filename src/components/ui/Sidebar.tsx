@@ -9,6 +9,7 @@ import styles from './Sidebar.module.css'
 interface SidebarProps {
   email: string
   role: 'admin' | 'agent'
+  enterpriseName: string
 }
 
 const navItems = [
@@ -21,7 +22,7 @@ const adminNavItems = [
   { label: 'Usuarios', href: '/settings/users' },
 ]
 
-export function Sidebar({ email, role }: SidebarProps) {
+export function Sidebar({ email, role, enterpriseName }: SidebarProps) {
   const pathname = usePathname()
   const initials = email.split('@')[0].slice(0, 2).toUpperCase()
 
@@ -32,6 +33,7 @@ export function Sidebar({ email, role }: SidebarProps) {
       <div className={styles.top}>
         <div className={styles.brand}>
           <span className={styles.brandName}>Reclama Pro</span>
+          <span className={styles.enterpriseName}>{enterpriseName}</span>
         </div>
 
         <nav className={styles.nav}>
